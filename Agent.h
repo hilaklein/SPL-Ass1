@@ -2,6 +2,7 @@
 #define AGENT_H_
 
 #include <vector>
+//#include "Session.h"
 
 class Agent{
 public:
@@ -16,6 +17,14 @@ public:
     ContactTracer();
     
     virtual void act(Session& session);
+//1. dequeues a wantedNode from infectedQueue
+//2. sends to BFS the wantedNode so it would build the tree with wantedNode as a root
+//3. CT calls the traceTree method with a tree that it received from BFS
+//4. CT receive the nodeToDisconnect from traceTree (depending on treeTYpe)
+//5. CT removes all the nodeToDisconnect's edges
+
+
+    // CT builds the desired Tree by receiving the instance of the tree from Session's 'createTree' method;
 };
 
 

@@ -3,6 +3,7 @@
 
 #include <vector>
 //#include "Session.h"
+//#include "Session.h"
 
 class Agent{
 public:
@@ -17,6 +18,7 @@ public:
     ContactTracer();
     
     virtual void act(Session& session);
+    void removeNodeEdges(int nodeIndex);
 //1. dequeues a wantedNode from infectedQueue
 //2. sends to BFS the wantedNode so it would build the tree with wantedNode as a root
 //3. CT calls the traceTree method with a tree that it received from BFS

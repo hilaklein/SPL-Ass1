@@ -17,7 +17,8 @@ enum TreeType{
 class Session{
 public:
     Session(const std::string& path);
-
+    bool allInfected;
+    bool containVirus;
     int numOfNodes; //number of given nodes
 
     void simulate();

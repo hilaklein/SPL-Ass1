@@ -25,7 +25,7 @@ using namespace std;
 //TreeType treeType;
 //std::vector<Agent*> agents;
 
-Session::Session(const std::string &path) {
+Session::Session(const std::string &path) : allInfected(true), containVirus(true) {
     ifstream configFile(path);
     json j;
     j << configFile;
@@ -47,12 +47,23 @@ Session::Session(const std::string &path) {
 
 }
 
+void Session::simulate() {
+//    int size = Session::agents.size();
+//    while(allInfected || containVirus){ // while not all infected or there is still a virus on graph
+//        for(int i = 0 ; i < size ; i++){
+//            agents[i]->act(*this);
+//        }
+//        size = agents.size();
+//    }
+}
 void Session::enqueueInfected(int x) {
     infectedQueue->push_back(x);
 }
 
 int Session::dequeueInfected(){
+    //int indValue = infectedQueue->*pop_back();
     infectedQueue->erase(infectedQueue->begin());
+
 }
 
 TreeType Session::getTreeType() const{

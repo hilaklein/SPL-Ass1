@@ -2,6 +2,7 @@
 #define TREE_H_
 
 #include <vector>
+using namespace std;
 
 class Session;
 
@@ -23,10 +24,23 @@ public:
     //}
 
     virtual int traceTree()=0;
-private:
+
+    //maybe there is another way to receive children vector????????????????????????????????????????
+    const vector<Tree*> getChildren() const;
+
+    int getNodeIndex() const;
+
+protected:
     int node;
     std::vector<Tree*> children;
 };
+
+
+
+
+
+
+
 
 class CycleTree: public Tree{
 public:

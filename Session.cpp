@@ -25,7 +25,7 @@ using namespace std;
 //TreeType treeType;
 //std::vector<Agent*> agents;
 
-Session::Session(const std::string &path) {
+Session::Session(const std::string &path) : cycleCounter(0), g() {
     ifstream configFile(path);
     json j;
     j << configFile;

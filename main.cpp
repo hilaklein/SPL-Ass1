@@ -3,6 +3,7 @@
 
 using namespace std;
 
+//kiskashta
 int main(int argc, char** argv){
 
     if(argc != 2){

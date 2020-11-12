@@ -2,6 +2,7 @@
 #define AGENT_H_
 
 #include <vector>
+#include "Tree.h"
 //#include "Session.h"
 //#include "Session.h"
 
@@ -19,6 +20,7 @@ public:
     
     virtual void act(Session& session);
     void removeNodeEdges(int nodeIndex);
+    Tree* BFS(int & nodeInd);
 //1. dequeues a wantedNode from infectedQueue
 //2. sends to BFS the wantedNode so it would build the tree with wantedNode as a root
 //3. CT calls the traceTree method with a tree that it received from BFS

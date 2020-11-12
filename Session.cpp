@@ -32,7 +32,7 @@ Session::Session(const std::string &path) {
 
     numOfNodes = j["graph"].size();
     infectedQueue = new vector<int>;
-    g = Graph(j["graph"]); //buildMatrix(j["graph"])
+    Graph g(j["graph"]); //buildMatrix(j["graph"])
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
     switch (charTreeType){
@@ -52,7 +52,9 @@ void Session::enqueueInfected(int x) {
 }
 
 int Session::dequeueInfected(){
+    int outputNode = infectedQueue->front();
     infectedQueue->erase(infectedQueue->begin());
+    return outputNode;
 }
 
 TreeType Session::getTreeType() const{

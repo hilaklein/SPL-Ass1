@@ -25,14 +25,14 @@ using namespace std;
 //TreeType treeType;
 //std::vector<Agent*> agents;
 
-Session::Session(const std::string &path) : allInfected(true), containVirus(true) {
+Session::Session(const std::string &path) {
     ifstream configFile(path);
     json j;
     j << configFile;
 
     numOfNodes = j["graph"].size();
     infectedQueue = new vector<int>;
-    g = Graph(j["graph"]); //buildMatrix(j["graph"])
+    Graph g(j["graph"]); //buildMatrix(j["graph"])
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
     switch (charTreeType){
@@ -47,23 +47,14 @@ Session::Session(const std::string &path) : allInfected(true), containVirus(true
 
 }
 
-void Session::simulate() {
-//    int size = Session::agents.size();
-//    while(allInfected || containVirus){ // while not all infected or there is still a virus on graph
-//        for(int i = 0 ; i < size ; i++){
-//            agents[i]->act(*this);
-//        }
-//        size = agents.size();
-//    }
-}
 void Session::enqueueInfected(int x) {
     infectedQueue->push_back(x);
 }
 
 int Session::dequeueInfected(){
-    //int indValue = infectedQueue->*pop_back();
+    int outputNode = infectedQueue->front();
     infectedQueue->erase(infectedQueue->begin());
-
+    return outputNode;
 }
 
 TreeType Session::getTreeType() const{

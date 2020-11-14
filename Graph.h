@@ -3,6 +3,8 @@
 
 #include <vector>
 
+using namespace std;
+
 class Graph{
 public:
     Graph(std::vector<std::vector<int>> matrix);
@@ -12,6 +14,9 @@ public:
     std::vector<int> getNeighbors(int nodeIndex);
     void infectNode(int nodeInd);
     bool isInfected(int nodeInd);
+
+    vector<int> wasInfected;
+
 private:
     std::vector<std::vector<int>> edges;
 };

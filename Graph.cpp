@@ -27,5 +27,3 @@ void Graph::infectNode(int nodeInd) {
 bool Graph::isInfected(int nodeInd) {
     return (wasInfected.at(nodeInd) == 1);
 }
-
-vector<vector<int>> edges;

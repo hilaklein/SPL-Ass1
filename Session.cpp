@@ -61,6 +61,19 @@ TreeType Session::getTreeType() const{
     return treeType;
 }
 
+Graph* Session::getGraph() {return &g;}
+
+//(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
+//void simulate();
+//void addAgent(const Agent& agent);
+//void setGraph(const Graph& graph);
+//(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
+
+
+
+
+
+
 
 //help method to convert a json into vector matrix
 //vector<vector<int>>& buildMatrix(string graph){

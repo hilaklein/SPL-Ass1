@@ -9,7 +9,7 @@ ContactTracer::ContactTracer() {}
 
 ContactTracer::ContactTracer(const Agent& aCT) {}
 
-Agent * ContactTracer::clone() {
+Agent * ContactTracer::clone() const{
     return new ContactTracer(*this);
 }
 
@@ -17,7 +17,7 @@ void ContactTracer::act(Session &session) {
     int dequeueNode = session.dequeueInfected(); // dequeues a wantedNode from infectedQueue
     Tree* currTree = createBFS(session, dequeueNode); //sends to BFS the wantedNode so it would build a tree with wantedNode as a root
     int nodeToDisconnect = currTree->traceTree(); // calls the traceTree() and receives the nodeToDisconnect (depending on treeTYpe)
-    Graph tempGraph(*session.getGraph());
+    Graph& tempGraph(session.getGraph());
     vector<int> neighbors = tempGraph.getNeighbors(nodeToDisconnect);
     for (int i = 0; i < neighbors.size(); i++) { //removes all the nodeToDisconnect's edges
         neighbors.at(i) = 0;
@@ -27,7 +27,7 @@ void ContactTracer::act(Session &session) {
 
 Tree* ContactTracer::createBFS(Session &session, int rootNode) {
     Tree *outputTree = Tree::createTree(session, rootNode); //create desired type tree
-    Graph tempGraph(*session.getGraph()); //receives current state graph (only pointer)
+    Graph& tempGraph(session.getGraph()); //receives current state graph (only pointer)
     Tree *tempTree;
     vector<Tree *> queue; //queue of nodes to run a BFS algorithm on them
     vector<int> wasAdded; //nodes that were already added to tree as someone's child - prevents to add some node two times as child
@@ -52,5 +52,8 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
             }
         }
     }
+
+    //?????????delete->(tempGraph, tempTree, queue, wasAdded)
+
     return outputTree;
 }

@@ -42,7 +42,7 @@ Tree* Tree::createTree(const Session &session, int rootLabel) {
 //return output;
 }
 
-int Tree::getNodeIndex() const {return node;}
+int Tree:: getNodeIndex() const {return node;}
 
 const vector<Tree *> Tree::getChildren() const {
     return children;

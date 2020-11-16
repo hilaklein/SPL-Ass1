@@ -32,7 +32,7 @@ Session::Session(const std::string &path) : cycleCounter(0), g() {
 
     numOfNodes = j["graph"].size();
     infectedQueue = new vector<int>;
-    Graph g(j["graph"]); //buildMatrix(j["graph"])
+    g = Graph(j["graph"]); //buildMatrix(j["graph"])
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
     switch (charTreeType){
@@ -61,12 +61,17 @@ TreeType Session::getTreeType() const{
     return treeType;
 }
 
-Graph* Session::getGraph() {return &g;}
+const Graph& Session::getGraph() const {return g;}
+
+void Session::addAgent(const Agent &agent) {
+    agents.push_back(agent.clone());
+}
+
 
 //(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
 //void simulate();
 //void addAgent(const Agent& agent);
-//void setGraph(const Graph& graph);
+//void setGraph(const Graph& graph); from the office-hours: {g = graph;}
 //(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
 
 

@@ -46,11 +46,11 @@ Session::Session(const std::string &path) : cycleCounter(0), g() {
     agents = (vector<Agent*>)j["agents"];
 
 }
-Session::~Session() {}
-Session::Session(Session &other) {}
-Session & Session::operator=(const Session &other) {}
-Session::Session(Session &&other) {}
-Session Session::operator=(Session &&other) {}
+Session::~Session() {}// destructor
+Session::Session(Session &other) {} // copy
+Session & Session::operator=(const Session &other) {} // copy assignment
+Session::Session(Session &&other) {} // move ctr
+Session Session::operator=(Session &&other) {} // move assignment
 
 void Session::enqueueInfected(int x) {
     infectedQueue->push_back(x);

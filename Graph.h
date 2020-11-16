@@ -16,6 +16,7 @@ public:
     bool isInfected(int nodeInd);
 
     vector<int> wasInfected;
+    bool isAllInfected();
 
 private:
     std::vector<std::vector<int>> edges;

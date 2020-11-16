@@ -15,7 +15,7 @@ Graph::Graph(std::vector<std::vector<int>> matrix) {
 //}
 
 
-std::vector<int> Graph::getNeighbors(int nodeIndex) {
+vector<int> Graph::getNeighbors(int nodeIndex) { // change it so vector with neighbors only will be returned!!!!!!!!!!!!!!!!!!!!!!!!!!
  return edges.at(nodeIndex);
 }
 
@@ -26,4 +26,11 @@ void Graph::infectNode(int nodeInd) {
 
 bool Graph::isInfected(int nodeInd) {
     return (wasInfected.at(nodeInd) == 1);
+}
+
+bool Graph::isAllInfected() {
+    for (int i : wasInfected) {
+        if (i != 1) return false;
+    }
+    return true;
 }

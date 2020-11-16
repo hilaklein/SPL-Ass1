@@ -9,12 +9,12 @@ Tree::Tree(int rootLabel) : node(rootLabel), children(vector<Tree*>()) {
 }
 
 void Tree::addChild(const Tree &child){
-    children.push_back((Tree*)&child);
+    children.push_back(child.clone());
 }
 
-const Tree& Tree::getChild(int nodeIndex) const{
-    for(Tree* itr:children){
-        if(itr->node==nodeIndex)
+const Tree& Tree::getChild(int nodeIndex) const {
+    for (Tree *itr:children) {
+        if (itr->node == nodeIndex)
             return *itr;
         //verify that there is no NullPointerException in case node with nodeIndex does not exist in current tree
     }

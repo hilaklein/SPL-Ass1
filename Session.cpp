@@ -61,36 +61,30 @@ TreeType Session::getTreeType() const{
     return treeType;
 }
 
-const Graph& Session::getGraph() const {return g;}
+Graph& Session::getGraph() const {return g;}
 
 void Session::addAgent(const Agent &agent) {
     agents.push_back(agent.clone());
 }
 
+void Session::setGraph(const Graph &graph) {
+
+}
+
+void Session::simulate() {
+    bool allAreInfected = g.isAllInfected();
+    bool virusCanSpread = true; //!!!!!!!!!!!!!!!!need to be implemented later
+    while(!allAreInfected || virusCanSpread) {
+        int size = agents.size();
+        for (int i = 0 ; i < size; i++){
+            agents.at(i)->act(*this);
+        }
+        allAreInfected = g.isAllInfected();
+        virusCanSpread = true; //!!!!!!!!!!!!!!!!need to be implemented later
+    }
+}
 
 //(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
 //void simulate();
-//void addAgent(const Agent& agent);
-//void setGraph(const Graph& graph); from the office-hours: {g = graph;}
 //(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
-
-
-
-
-
-
-
-//help method to convert a json into vector matrix
-//vector<vector<int>>& buildMatrix(string graph){
-//    vector<vector<int>> matrix;
-//    int rowSize = graph[0].
-//    int colSize;
-//}
-
-//Graph graph = new Graph(matrix);
-
-
-//void addAgent(Agent agent){
-//    Agent* clone = agent.clone();
-//}
 

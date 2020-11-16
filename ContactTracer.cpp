@@ -27,7 +27,7 @@ void ContactTracer::act(Session &session) {
 
 Tree* ContactTracer::createBFS(Session &session, int rootNode) {
     Tree *outputTree = Tree::createTree(session, rootNode); //create desired type tree
-    Graph& tempGraph(session.getGraph()); //receives current state graph (only pointer)
+    Graph* tempGraph = &session.getGraph(); //receive current state of graph
     Tree *tempTree;
     vector<Tree *> queue; //queue of nodes to run a BFS algorithm on them
     vector<int> wasAdded; //nodes that were already added to tree as someone's child - prevents to add some node two times as child
@@ -41,7 +41,7 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
         tempTree = queue.front(); //dequeue 1st stage
         queue.erase(queue.begin()); // dequeue 2nd stage
         wasAdded.at(tempTree->getNodeIndex()) = 1; //marking the dequeued node as 'taken care of'
-        vector<int> currNeighbors = tempGraph.getNeighbors(tempTree->getNodeIndex()); //curr node's neighbors - they are potential childs
+        vector<int> currNeighbors = tempGraph->getNeighbors(tempTree->getNodeIndex()); //curr node's neighbors - they are potential childs
 
         for (int i = 0; i < currNeighbors.size(); i++) { //running through curr node's neighbors
             if (currNeighbors.at(i) != 0 && wasAdded.at(i) == 0) {

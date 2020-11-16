@@ -30,6 +30,8 @@ public:
 
     int getNodeIndex() const;
 
+    Tree* clone() const;
+
 protected:
     int node;
     std::vector<Tree*> children;
@@ -38,14 +40,11 @@ protected:
 
 
 
-
-
-
-
 class CycleTree: public Tree{
 public:
     CycleTree(int rootLabel, int currCycle);
     virtual int traceTree();
+    Tree* clone() const;
 private:
     int currCycle;
 };
@@ -54,12 +53,14 @@ class MaxRankTree: public Tree{
 public:
     MaxRankTree(int rootLabel);
     virtual int traceTree();
+    Tree* clone() const;
 };
 
 class RootTree: public Tree{
 public:
     RootTree(int rootLabel);
     virtual int traceTree();
+    Tree* clone() const;
 };
 
 #endif

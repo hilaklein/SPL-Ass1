@@ -15,3 +15,7 @@ int MaxRankTree::traceTree() {
     }
     return output;
 }
+
+Tree * MaxRankTree::clone() const {
+    return new MaxRankTree(*this);
+}

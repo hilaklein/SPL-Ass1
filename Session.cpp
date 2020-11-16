@@ -32,7 +32,7 @@ Session::Session(const std::string &path) : cycleCounter(0), g() {
 
     numOfNodes = j["graph"].size();
     infectedQueue = new vector<int>;
-    Graph g(j["graph"]); //buildMatrix(j["graph"])
+    g = Graph(j["graph"]); //buildMatrix(j["graph"])
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
     switch (charTreeType){
@@ -46,6 +46,7 @@ Session::Session(const std::string &path) : cycleCounter(0), g() {
     agents = (vector<Agent*>)j["agents"];
 
 }
+
 Session::~Session() {}// destructor
 Session::Session(Session &other) {} // copy
 Session & Session::operator=(const Session &other) {} // copy assignment
@@ -66,17 +67,30 @@ TreeType Session::getTreeType() const{
     return treeType;
 }
 
+Graph& Session::getGraph() const {return g;}
 
-//help method to convert a json into vector matrix
-//vector<vector<int>>& buildMatrix(string graph){
-//    vector<vector<int>> matrix;
-//    int rowSize = graph[0].
-//    int colSize;
-//}
+void Session::addAgent(const Agent &agent) {
+    agents.push_back(agent.clone());
+}
 
-//Graph graph = new Graph(matrix);
+void Session::setGraph(const Graph &graph) {
 
+}
 
-//void addAgent(Agent agent){
-//    Agent* clone = agent.clone();
-//}
+void Session::simulate() {
+    bool allAreInfected = g.isAllInfected();
+    bool virusCanSpread = true; //!!!!!!!!!!!!!!!!need to be implemented later
+    while(!allAreInfected || virusCanSpread) {
+        int size = agents.size();
+        for (int i = 0 ; i < size; i++){
+            agents.at(i)->act(*this);
+        }
+        allAreInfected = g.isAllInfected();
+        virusCanSpread = true; //!!!!!!!!!!!!!!!!need to be implemented later
+    }
+}
+
+//(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
+//void simulate();
+//(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
+

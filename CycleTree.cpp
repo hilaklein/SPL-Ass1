@@ -15,3 +15,7 @@ int CycleTree::traceTree() {
     return output;
 
 }
+
+Tree * CycleTree::clone() const {
+    return new CycleTree(*this);
+}

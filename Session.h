@@ -28,14 +28,15 @@ public:
 
     void simulate();
     void addAgent(const Agent& agent);
-    void setGraph(const Graph& graph);
+    void setGraph(const Graph& graph); // from the office-hours: {g = graph;}
     
     void enqueueInfected(int);
     int dequeueInfected();
     TreeType getTreeType() const;
+    Graph& getGraph() const;
 
     int cycleCounter;
-    
+
 private:
     //const vector<vector<int>> buildMatrix(string graph); -- seems like we dont need this one cause Graph constructor can receive j["graph"] as vector matrix
     Graph g;

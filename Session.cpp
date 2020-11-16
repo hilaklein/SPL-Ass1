@@ -47,6 +47,12 @@ Session::Session(const std::string &path) : cycleCounter(0), g() {
 
 }
 
+Session::~Session() {}// destructor
+Session::Session(Session &other) {} // copy
+Session & Session::operator=(const Session &other) {} // copy assignment
+Session::Session(Session &&other) {} // move ctr
+Session Session::operator=(Session &&other) {} // move assignment
+
 void Session::enqueueInfected(int x) {
     infectedQueue->push_back(x);
 }

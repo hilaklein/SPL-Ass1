@@ -3,9 +3,60 @@
 #include "Session.h"
 using namespace std;
 
-
 Tree::Tree(int rootLabel) : node(rootLabel), children(vector<Tree*>()) {
 
+}
+Tree::~Tree()  {
+    int size = children.size();
+    for(int i = size-1; i >=0 ; i--){
+        if(children[i]){
+            delete children[i];
+        }
+        children.clear();
+    }
+}
+Tree::Tree(Tree &other): children(other.children),node(other.node) {} // copy ctr
+Tree & Tree::operator=(const Tree &other) { // copy Assignment
+    if(!children.empty()) {
+        int size = children.size();
+        for (int i = size - 1; i >= 0; i--) {
+            delete children[i];
+        }
+    }
+        children.clear();
+        int otherChildSize = other.children.size();
+        for(int i = 0 ; i < otherChildSize ; i++) {
+            Tree *t = (this)->children[i];
+            children.push_back(t);
+        }
+        return *this;
+}
+Tree::Tree(Tree &&other) : children(other.children),node(other.node) {//move ctr
+    other.node = 0;
+    int size = other.children.size();
+    for(int i = 0 ; i < size ; i++) {
+        other.children[i] = nullptr;
+    }
+    other.children.clear();
+}
+Tree & Tree::operator=(Tree &&other) { // move Assignment
+    if (this != &other) { // A1=A1
+        if (&children) {
+            int size = children.size();
+            for (int i = size - 1; i >= 0; i--) {
+                if (children[i]) {
+                    delete children[i];
+                }
+            }
+
+            int otherChildSize = other.children.size();
+            for (int i = 0; i < otherChildSize; i++) {
+                children[i] = other.children[i];
+            }
+        }
+        node = other.node;
+    }
+    return *this;
 }
 
 void Tree::addChild(const Tree &child){

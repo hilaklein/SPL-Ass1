@@ -46,6 +46,11 @@ Session::Session(const std::string &path) : cycleCounter(0), g() {
     agents = (vector<Agent*>)j["agents"];
 
 }
+Session::~Session() {}
+Session::Session(Session &other) {}
+Session & Session::operator=(const Session &other) {}
+Session::Session(Session &&other) {}
+Session Session::operator=(Session &&other) {}
 
 void Session::enqueueInfected(int x) {
     infectedQueue->push_back(x);
@@ -75,4 +80,3 @@ TreeType Session::getTreeType() const{
 //void addAgent(Agent agent){
 //    Agent* clone = agent.clone();
 //}
-

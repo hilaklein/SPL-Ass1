@@ -3,14 +3,21 @@
 
 #include <vector>
 
+using namespace std;
+
 class Graph{
 public:
     Graph(std::vector<std::vector<int>> matrix);
 
-    Graph(); //maybe not needed????????????????????????????????????????????????
-    //getNeighbors method
+    Graph();
+//    Graph(const Graph &aGraph); // - copy constructor
+    std::vector<int> getNeighbors(int nodeIndex);
     void infectNode(int nodeInd);
     bool isInfected(int nodeInd);
+
+    vector<int> wasInfected;
+    bool isAllInfected();
+
 private:
     std::vector<std::vector<int>> edges;
 };

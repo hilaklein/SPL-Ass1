@@ -1,0 +1,59 @@
+#include <vector>
+#include "Session.h"
+#include "Agent.h"
+#include "Tree.h"
+
+using namespace std;
+
+ContactTracer::ContactTracer() {}
+
+ContactTracer::ContactTracer(const Agent& aCT) {}
+
+Agent * ContactTracer::clone() const{
+    return new ContactTracer(*this);
+}
+
+void ContactTracer::act(Session &session) {
+    int dequeueNode = session.dequeueInfected(); // dequeues a wantedNode from infectedQueue
+    Tree* currTree = createBFS(session, dequeueNode); //sends to BFS the wantedNode so it would build a tree with wantedNode as a root
+    int nodeToDisconnect = currTree->traceTree(); // calls the traceTree() and receives the nodeToDisconnect (depending on treeTYpe)
+    Graph& tempGraph(session.getGraph());
+    vector<int> neighbors = tempGraph.getNeighbors(nodeToDisconnect);
+    for (int i = 0; i < neighbors.size(); i++) { //removes all the nodeToDisconnect's edges
+        neighbors.at(i) = 0;
+        tempGraph.getNeighbors(i).at(nodeToDisconnect) = 0;
+    }
+}
+
+Tree* ContactTracer::createBFS(Session &session, int rootNode) {
+    Tree *outputTree = Tree::createTree(session, rootNode); //create desired type tree
+    Graph* tempGraph = &session.getGraph(); //receive current state of graph
+    Tree *tempTree;
+    vector<Tree *> queue; //queue of nodes to run a BFS algorithm on them
+    vector<int> wasAdded; //nodes that were already added to tree as someone's child - prevents to add some node two times as child
+
+    for (int i = 0; i < session.numOfNodes; i++) //initiate vector with 0's
+        wasAdded.push_back(0);
+
+    queue.push_back(outputTree); //adding first node - it'll be the root of desired BFS tree
+
+    while(!queue.empty()) {
+        tempTree = queue.front(); //dequeue 1st stage
+        queue.erase(queue.begin()); // dequeue 2nd stage
+        wasAdded.at(tempTree->getNodeIndex()) = 1; //marking the dequeued node as 'taken care of'
+        vector<int> currNeighbors = tempGraph->getNeighbors(tempTree->getNodeIndex()); //curr node's neighbors - they are potential childs
+
+        for (int i = 0; i < currNeighbors.size(); i++) { //running through curr node's neighbors
+            if (currNeighbors.at(i) != 0 && wasAdded.at(i) == 0) {
+                Tree* toAdd = tempTree->createTree(session, i); //creating a neighbor as a new tree
+                tempTree->addChild(*toAdd); //adding a neighbor as a new child to curr node tree
+                wasAdded.at(i) = 1; //marking the neighbor as 'taken care of'
+                queue.push_back(toAdd); //adding neighbor to queue for next BFS 'scans'
+            }
+        }
+    }
+
+    //?????????delete->(tempGraph, tempTree, queue, wasAdded)
+
+    return outputTree;
+}

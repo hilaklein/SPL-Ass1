@@ -17,6 +17,7 @@ public:
 
     vector<int> wasInfected;
     bool isAllInfected();
+    bool canSpread();
 
 private:
     std::vector<std::vector<int>> edges;

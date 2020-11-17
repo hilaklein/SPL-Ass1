@@ -15,10 +15,15 @@ Graph::Graph(std::vector<std::vector<int>> matrix) {
 //}
 
 
-vector<int> Graph::getNeighbors(int nodeIndex) { // change it so vector with neighbors only will be returned!!!!!!!!!!!!!!!!!!!!!!!!!!
- return edges.at(nodeIndex);
+vector<int> Graph::getNeighbors(int nodeIndex) {
+    vector<int> indexes = edges.at(nodeIndex);
+    vector<int> output;
+    for (int i = 0; i < indexes.size(); i++){
+        if (indexes.at(i) == 1)
+            output.push_back(i);
+    }
+    return output;
 }
-
 
 void Graph::infectNode(int nodeInd) {
     wasInfected.at(nodeInd) = 1;
@@ -33,4 +38,18 @@ bool Graph::isAllInfected() {
         if (i != 1) return false;
     }
     return true;
+}
+
+bool Graph::canSpread() {
+    for (int i = 0; i < wasInfected.size(); i++)
+    {
+        if (isInfected(i)){
+            vector<int> tempNeighbors = getNeighbors(i);
+            for (int k = 0; k < tempNeighbors.size(); k++){
+                if (tempNeighbors.at(k) == 0)
+                    return true;
+            }
+        }
+    }
+    return false;
 }

@@ -12,6 +12,7 @@ int CycleTree::traceTree() {
         tempTree = tempTree->getChildren().front();
         output = tempTree->getNodeIndex();
     }
+    delete tempTree;
     return output;
 
 }

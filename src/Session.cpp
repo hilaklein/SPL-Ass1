@@ -29,7 +29,7 @@ Session::Session(const std::string &path) : numOfNodes(0), cycleCounter(0), g(),
             break;
     }
     agents = (vector<Agent*>)j["agents"];
-
+    j.clear();
 }
 
 Session::~Session() {// destructor

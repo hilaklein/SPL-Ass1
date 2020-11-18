@@ -3,11 +3,9 @@
 #include "../include/Session.h"
 using namespace std;
 
-
 Tree::Tree(int rootLabel) : node(rootLabel), children(vector<Tree*>()) {
 
 }
-
 Tree::~Tree()  {
     int size = children.size();
     for(int i = size-1; i >=0 ; i--){
@@ -25,13 +23,13 @@ Tree & Tree::operator=(const Tree &other) { // copy Assignment
             delete children[i];
         }
     }
-    children.clear();
-    int otherChildSize = other.children.size();
-    for(int i = 0 ; i < otherChildSize ; i++) {
-        Tree *t = (this)->children[i];
-        children.push_back(t);
-    }
-    return *this;
+        children.clear();
+        int otherChildSize = other.children.size();
+        for(int i = 0 ; i < otherChildSize ; i++) {
+            Tree *t = (this)->children[i];
+            children.push_back(t);
+        }
+        return *this;
 }
 Tree::Tree(Tree &&other) : children(other.children),node(other.node) {//move ctr
     other.node = 0;

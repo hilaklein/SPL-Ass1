@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "../include/Tree.h"
 #include <vector>
 
 CycleTree::CycleTree(int rootLabel, int currCycle) : Tree(rootLabel), currCycle(currCycle) {}

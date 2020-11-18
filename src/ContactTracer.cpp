@@ -1,7 +1,7 @@
 #include <vector>
-#include "Session.h"
-#include "Agent.h"
-#include "Tree.h"
+#include "../include/Session.h"
+#include "../include/Agent.h"
+#include "../include/Tree.h"
 
 using namespace std;
 
@@ -53,6 +53,6 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
             }
         }
     }
-    delete tempTree;
+    //delete tempTree; - don't think this is needed here cause we still be needed Trees' data on the heap
     return outputTree;
 }

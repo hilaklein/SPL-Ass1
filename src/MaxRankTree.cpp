@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "../include/Tree.h"
 #include <vector>
 
 MaxRankTree::MaxRankTree(int rootLabel) : Tree(rootLabel) {}

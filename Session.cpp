@@ -58,7 +58,7 @@ Session::~Session() {// destructor
 }
 Session::Session(Session &other) : agents(other.agents),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {} // copy
 Session & Session::operator=(const Session &other) {
-    if(!agents.empty()) {
+    if (!agents.empty()) {
         int size = agents.size();
         for (int i = size - 1; i >= 0; i--) {
             delete agents[i];
@@ -66,7 +66,7 @@ Session & Session::operator=(const Session &other) {
     }
     agents.clear();
     int otherChildSize = other.agents.size();
-    for(int i = 0 ; i < otherChildSize ; i++) {
+    for (int i = 0; i < otherChildSize; i++) {
         Agent *a = (this)->agents[i];
         agents.push_back(a);
     }

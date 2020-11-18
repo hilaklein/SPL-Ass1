@@ -2,7 +2,6 @@
 #include <vector>
 
 CycleTree::CycleTree(int rootLabel, int currCycle) : Tree(rootLabel), currCycle(currCycle) {}
-
 int CycleTree::traceTree() {
     int output = node;
     Tree* tempTree = children.front();

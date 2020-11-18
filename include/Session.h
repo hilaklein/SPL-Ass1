@@ -44,7 +44,7 @@ private:
     std::vector<Agent*> agents;
 
 protected:
-    vector<int>* infectedQueue; //a queue which carry the indexes of the infected nodes.
+    vector<int> infectedQueue; //a queue which carry the indexes of the infected nodes.
 
 };
 

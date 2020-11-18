@@ -10,13 +10,14 @@ using json = nlohmann::json;
 using namespace std;
 
 
-Session::Session(const std::string &path) : cycleCounter(0), g() {
+Session::Session(const std::string &path) : cycleCounter(0), g(), numOfNodes(0),
+agents(vector<Agent*>()), treeType(), infectedQueue(vector<int>()) {
     ifstream configFile(path);
     json j;
     j << configFile;
 
     numOfNodes = j["graph"].size();
-    infectedQueue = new vector<int>;
+    //infectedQueue = new vector<int>;
     g = Graph(j["graph"]); //buildMatrix(j["graph"])
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
@@ -94,12 +95,12 @@ Session Session::operator=(Session &&other) {
 }
 
 void Session::enqueueInfected(int x) {
-    infectedQueue->push_back(x);
+    infectedQueue.push_back(x);
 }
 
 int Session::dequeueInfected(){
-    int outputNode = infectedQueue->front();
-    infectedQueue->erase(infectedQueue->begin());
+    int outputNode = infectedQueue.front();
+    infectedQueue.erase(infectedQueue.begin());
     return outputNode;
 }
 

@@ -10,7 +10,7 @@ class Tree {
 public:
     Tree(int rootLabel);
     virtual ~Tree(); // destructor
-    Tree(Tree& other); // copy constructor Tree t1(t2)
+    Tree(const Tree& other); // copy constructor Tree t1(t2)
     Tree &operator=(const Tree &other); // copy Assignment T1=T2
     Tree(Tree &&other); // move ctr
     Tree &operator=(Tree &&other); // move assignment

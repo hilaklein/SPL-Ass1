@@ -7,7 +7,7 @@ using namespace std;
 
 Virus::Virus(int nodeInd) : nodeInd(nodeInd){}
 
-Virus::Virus(const Virus& aVirus) : nodeInd(this->nodeInd){}
+Virus::Virus(const Virus& aVirus) : nodeInd(aVirus.nodeInd){}
 
 Agent* Virus::clone() const{
     return new Virus(*this);

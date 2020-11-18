@@ -10,8 +10,7 @@ using json = nlohmann::json;
 using namespace std;
 
 
-Session::Session(const std::string &path) : numOfNodes(0), cycleCounter(0), g(),
-treeType(), agents(vector<Agent*>()), infectedQueue(vector<int>()) {
+Session::Session(const std::string &path) : numOfNodes(0), cycleCounter(0), g(), treeType(), agents(vector<Agent*>()), infectedQueue(vector<int>()) {
     ifstream configFile(path);
     json j;
     j << configFile;

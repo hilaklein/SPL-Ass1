@@ -32,11 +32,66 @@ Session::Session(const std::string &path) : cycleCounter(0), g() {
 
 }
 
-Session::~Session() {}// destructor
-Session::Session(Session &other) {} // copy
-Session & Session::operator=(const Session &other) {} // copy assignment
-Session::Session(Session &&other) {} // move ctr
-Session Session::operator=(Session &&other) {} // move assignment
+Session::~Session() {// destructor
+    int size = agents.size();
+    for (int i = size - 1; i >= 0; i--) {
+        if (agents[i]) {
+            delete agents[i];
+        }
+        agents.clear();
+    }
+}
+
+// copy constructor
+Session::Session(Session &other) : agents(other.agents),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {}
+
+
+// copy assignment
+Session & Session::operator=(const Session &other) {
+    if(!agents.empty()) {
+        int size = agents.size();
+        for (int i = size - 1; i >= 0; i--) {
+            delete agents[i];
+        }
+    }
+    agents.clear();
+    int otherChildSize = other.agents.size();
+    for(int i = 0 ; i < otherChildSize; i++) {
+        Agent *a = (this)->agents[i];
+        agents.push_back(a);
+    }
+    return *this;
+}
+
+// move constructor
+Session::Session(Session &&other) : agents(other.agents),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {
+    int size = other.agents.size();
+    for(int i = 0 ; i < size ; i++) {
+        other.agents[i] = nullptr;
+    }
+    other.agents.clear();
+}
+
+// move assignment
+Session Session::operator=(Session &&other) {
+    if (this != &other) { // A1=A1
+        if (&agents) {
+            int size = agents.size();
+            for (int i = size - 1; i >= 0; i--) {
+                if (agents[i]) {
+                    delete agents[i];
+                }
+            }
+
+            int otherChildSize = other.agents.size();
+            for (int i = 0; i < otherChildSize; i++) {
+                agents[i] = other.agents[i];
+            }
+        }
+        //node = other.node;
+    }
+    return *this;
+}
 
 void Session::enqueueInfected(int x) {
     infectedQueue->push_back(x);

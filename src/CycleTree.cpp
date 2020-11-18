@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "../include/Tree.h"
 #include <vector>
 
 CycleTree::CycleTree(int rootLabel, int currCycle) : Tree(rootLabel), currCycle(currCycle) {}
@@ -12,6 +12,7 @@ int CycleTree::traceTree() {
         tempTree = tempTree->getChildren().front();
         output = tempTree->getNodeIndex();
     }
+    delete tempTree;
     return output;
 
 }

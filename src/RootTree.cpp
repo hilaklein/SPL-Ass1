@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "../include/Tree.h"
 #include <vector>
 
 RootTree::RootTree(int rootLabel) : Tree(rootLabel) {}

@@ -1,29 +1,14 @@
-#include "Session.h"
-#include "Agent.h"
+#include "../include/Session.h"
+#include "../include/Agent.h"
 #include <vector>
 
 #include <iostream>
 #include <fstream>
-#include "cmake-build-debug/json.hpp"
+#include "../cmake-build-debug/json.hpp"
 using json = nlohmann::json;
 
 using namespace std;
 
-//public:
-//Session(const std::string& path);
-//
-//void simulate();
-//void addAgent(const Agent& agent);
-//void setGraph(const Graph& graph);
-//
-
-
-//TreeType getTreeType() const;
-//
-//private:
-//Graph g;
-//TreeType treeType;
-//std::vector<Agent*> agents;
 
 Session::Session(const std::string &path) : cycleCounter(0), g() {
     ifstream configFile(path);
@@ -67,7 +52,7 @@ TreeType Session::getTreeType() const{
     return treeType;
 }
 
-Graph& Session::getGraph() const {return g;}
+Graph& Session::getGraph()/* const */ {return g;}
 
 void Session::addAgent(const Agent &agent) {
     agents.push_back(agent.clone());
@@ -79,18 +64,14 @@ void Session::setGraph(const Graph &graph) {
 
 void Session::simulate() {
     bool allAreInfected = g.isAllInfected();
-    bool virusCanSpread = true; //!!!!!!!!!!!!!!!!need to be implemented later
+    bool virusCanSpread = g.canSpread();
     while(!allAreInfected || virusCanSpread) {
         int size = agents.size();
         for (int i = 0 ; i < size; i++){
             agents.at(i)->act(*this);
         }
         allAreInfected = g.isAllInfected();
-        virusCanSpread = true; //!!!!!!!!!!!!!!!!need to be implemented later
+        virusCanSpread = g.canSpread();
     }
 }
-
-//(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
-//void simulate();
-//(!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
 

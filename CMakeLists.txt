@@ -3,4 +3,4 @@ project(untitled1)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(SPL-Ass1 main.cpp Agent.cpp Graph.cpp Session.cpp RootTree.cpp MaxRankTree.cpp CycleTree.cpp Tree.cpp ContactTracer.cpp Virus.cpp)
+add_executable(SPL-Ass1 src/main.cpp src/Agent.cpp src/Graph.cpp src/Session.cpp src/RootTree.cpp src/MaxRankTree.cpp src/CycleTree.cpp src/Tree.cpp src/ContactTracer.cpp src/Virus.cpp)

@@ -1,6 +1,6 @@
-#include "Tree.h"
+#include "../include/Tree.h"
 #include <vector>
-#include "Session.h"
+#include "../include/Session.h"
 using namespace std;
 
 Tree::Tree(int rootLabel) : node(rootLabel), children(vector<Tree*>()) {

@@ -9,6 +9,8 @@ Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()),
         wasInfected.push_back(0);
 }
 
+Graph::Graph() {}
+
 //Graph copy-constructor
 //Graph::Graph(const Graph &aGraph) {
 //

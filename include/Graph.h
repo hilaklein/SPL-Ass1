@@ -7,11 +7,11 @@ using namespace std;
 
 class Graph{
 public:
-    Graph(std::vector<std::vector<int>> matrix);
+    Graph(vector<vector<int>> matrix);
 
     Graph();
 //    Graph(const Graph &aGraph); // - copy constructor
-    std::vector<int> getNeighbors(int nodeIndex);
+    vector<int> getNeighbors(int nodeIndex);
     void infectNode(int nodeInd);
     bool isInfected(int nodeInd);
 

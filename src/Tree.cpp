@@ -15,7 +15,8 @@ Tree::~Tree()  {
         children.clear();
     }
 }
-Tree::Tree(Tree &other): children(other.children),node(other.node) {} // copy ctr
+Tree::Tree(const Tree &other): children(other.children),node(other.node) {} // copy ctr
+
 Tree & Tree::operator=(const Tree &other) { // copy Assignment
     if(!children.empty()) {
         int size = children.size();

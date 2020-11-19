@@ -42,6 +42,7 @@ private:
     Graph g;
     TreeType treeType;
     std::vector<Agent*> agents;
+    void createOutput();
 
 protected:
     vector<int> infectedQueue; //a queue which carry the indexes of the infected nodes.

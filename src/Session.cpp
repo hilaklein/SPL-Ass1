@@ -1,7 +1,7 @@
 #include "../include/Session.h"
 #include "../include/Agent.h"
 #include <vector>
-
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include "../cmake-build-debug/json.hpp"
@@ -16,8 +16,7 @@ Session::Session(const std::string &path) : numOfNodes(0), cycleCounter(0), g(),
     j << configFile;
 
     numOfNodes = j["graph"].size();
-    //infectedQueue = new vector<int>;
-    g = Graph(j["graph"]); //buildMatrix(j["graph"])
+    g = Graph(j["graph"]);
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
     switch (charTreeType){
@@ -47,7 +46,7 @@ Session::Session(Session &other) : agents(other.agents),g(other.g),treeType(othe
 
 
 // copy assignment
-Session & Session::operator=(const Session &other) {
+Session & Session::operator=(const Session &other) { //if statement in case A1=A1??????????????????????????
     if(!agents.empty()) {
         int size = agents.size();
         for (int i = size - 1; i >= 0; i--) {
@@ -57,7 +56,7 @@ Session & Session::operator=(const Session &other) {
     agents.clear();
     int otherChildSize = other.agents.size();
     for(int i = 0 ; i < otherChildSize; i++) {
-        Agent *a = (this)->agents[i];
+        Agent *a = (this)->agents[i];  //need to be other.agents?????????????????????????????????????????
         agents.push_back(a);
     }
     return *this;
@@ -128,5 +127,18 @@ void Session::simulate() {
         allAreInfected = g.isAllInfected();
         virusCanSpread = g.canSpread();
     }
+    createOutput();
 }
+
+void Session::createOutput() {
+    std::ofstream output("./output.json");
+    json j;
+    for (int i = 0; i < numOfNodes; i++) {
+        j["graph"][i] = g.getNeighbors(i);
+    }
+    j["infected"] = g.wasInfected;
+    output << j;
+}
+
+
 

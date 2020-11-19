@@ -13,11 +13,14 @@ Session::Session(const std::string &path) : numOfNodes(0), cycleCounter(0), g(),
     ifstream configFile(path);
     json j;
     j << configFile;
+    cout<<"running in Session" << endl;
 
     numOfNodes = j["graph"].size();
     g = Graph(j["graph"]);
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
+    cout<<"running in Session: before switch" << endl;
+
     switch (charTreeType){
         case 'M' : treeType = MaxRank;
             break;
@@ -26,8 +29,21 @@ Session::Session(const std::string &path) : numOfNodes(0), cycleCounter(0), g(),
         case 'C' : treeType = Cycle;
             break;
     }
-    agents = (vector<Agent*>)j["agents"];
+    cout<<"running in Session: before agents declaration" << endl;
+    for (int i = 0; i < j["agents"].size(); i++){
+        string str = j["agents"][i][0];
+        int nodeIndex = j["agents"][i][1];
+        char type = str.at(0);
+        switch (type) {
+            case 'V': addAgent(Virus(nodeIndex));
+                break;
+            case 'C': addAgent(ContactTracer());
+                break;
+        }
+    }
     j.clear();
+    cout<<"running in Session: after j.clear" << endl;
+
 }
 
 Session::~Session() {// destructor

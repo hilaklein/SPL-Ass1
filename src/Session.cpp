@@ -153,6 +153,7 @@ void Session::createOutput() {
     }
     j["infected"] = g.wasInfected;
     output << j;
+    j.clear();
 }
 
 

@@ -3,7 +3,6 @@
 
 using namespace std;
 
-//kiskashta
 int main(int argc, char** argv){
     cout<<"starts here<==============" << endl;
     if(argc != 2){

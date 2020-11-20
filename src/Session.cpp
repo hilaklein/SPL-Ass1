@@ -129,14 +129,19 @@ void Session::simulate() {
     cout << "Session: simulate: line after createOutput()" << endl;
     bool allAreInfected = g.isAllInfected();
     bool virusCanSpread = g.canSpread();
+    int debugIndex = 0;
     while(!allAreInfected || virusCanSpread) {
+        cout << "session: simulate: while loop: debugger loop indicator. loop #" << debugIndex << endl;
+        debugIndex++;
         int size = agents.size();
         for (int i = 0 ; i < size; i++){
             agents.at(i)->act(*this);
+            cout << "session: simulate: while loop: for loop: debugger loop indicator. loop #" << i << endl;
         }
         allAreInfected = g.isAllInfected();
         virusCanSpread = g.canSpread();
     }
+    cout << "session: simulate: while loop ended " << endl;
     //createOutput(); -> remove the 'commentOut' after tests
 }
 
@@ -157,9 +162,22 @@ void Session::initAgents(json& j) {
 void Session::createOutput() {
     std::ofstream output("./output.json");
     json j;
+    vector<int> tempNeighbors;
+    vector<int> addV;
+
     for (int i = 0; i < numOfNodes; i++) {
-        j["graph"][i] = g.getNeighbors(i);
+        tempNeighbors = g.getNeighbors(i);
+        for (int k = 0; k < numOfNodes; k++) {
+            if (k == tempNeighbors.at(0)) {
+                addV.push_back(1);
+                tempNeighbors.erase(tempNeighbors.begin());
+            } else
+                addV.push_back(0);
+        }
+        j["graph"][i] = addV;
+        addV.clear();
     }
+
     j["infected"] = g.wasInfected;
     output << j;
     j.clear();

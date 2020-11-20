@@ -3,10 +3,8 @@
 using namespace std;
 
 //Graph constructor
-Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()), edges(vector<vector<int>>()) {
+Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(edges.size(), 0), edges(vector<vector<int>>()) {
     edges = matrix;
-    for (int i = 0; i < edges.size(); i++)
-        wasInfected.push_back(0);
 }
 
 Graph::Graph() {}

@@ -163,21 +163,18 @@ void Session::createOutput() {
     std::ofstream output("./output.json");
     json j;
     vector<int> tempNeighbors;
-    vector<int> addV;
-
+    vector<int> zeros (numOfNodes, 0);
+    vector<int> addV = zeros;
     for (int i = 0; i < numOfNodes; i++) {
         tempNeighbors = g.getNeighbors(i);
-        for (int k = 0; k < numOfNodes; k++) {
-            if (k == tempNeighbors.at(0)) {
-                addV.push_back(1);
-                tempNeighbors.erase(tempNeighbors.begin());
-            } else
-                addV.push_back(0);
+        for (int k = 0; k < tempNeighbors.size(); k++) {
+            addV.at(tempNeighbors.at(k)) = 1;
         }
         j["graph"][i] = addV;
-        addV.clear();
+        addV = zeros;
     }
-
+    //vector<int> toPrint = g.wasInfected;
+    //cout << "Session: createOutput: line before j['infected']: wasInfected:" << toPrint. << endl;
     j["infected"] = g.wasInfected;
     output << j;
     j.clear();

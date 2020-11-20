@@ -11,8 +11,13 @@ Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()),
 
 Graph::Graph() {}
 
-//Graph copy-constructor
-//Graph::Graph(const Graph &aGraph) {
+// copy-constructor
+// destructor: release edges, release wasInfected
+// copy assignment
+// move constructor
+// move assignment
+
+//Graph::Graph(const Graph& aGraph) {
 //
 //}
 
@@ -24,6 +29,7 @@ vector<int> Graph::getNeighbors(int nodeIndex) {
         if (indexes.at(i) == 1)
             output.push_back(i);
     }
+    indexes.clear();
     return output;
 }
 
@@ -48,9 +54,12 @@ bool Graph::canSpread() {
         if (isInfected(i)){
             vector<int> tempNeighbors = getNeighbors(i);
             for (int k = 0; k < tempNeighbors.size(); k++){
-                if (tempNeighbors.at(k) == 0)
+                if (tempNeighbors.at(k) == 0) {
+                    tempNeighbors.clear();
                     return true;
+                }
             }
+            tempNeighbors.clear();
         }
     }
     return false;

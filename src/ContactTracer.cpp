@@ -24,6 +24,7 @@ void ContactTracer::act(Session &session) {
         tempGraph->getNeighbors(i).at(nodeToDisconnect) = 0;
     }
     delete currTree;
+    neighbors.clear();
 }
 
 Tree* ContactTracer::createBFS(Session &session, int rootNode) {
@@ -54,5 +55,7 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
         }
     }
     //delete tempTree; - don't think this is needed here cause we still be needed Trees' data on the heap
+    queue.clear();
+    wasAdded.clear();
     return outputTree;
 }

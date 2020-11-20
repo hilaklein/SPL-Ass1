@@ -13,6 +13,7 @@ int main(int argc, char** argv){
     cout<<"calling Session" << endl;
 
     Session sess(argv[1]);
+    cout<<"main: next command -> 'sess.simulate();'" << endl;
     sess.simulate();
 
     cout << "print this before return 0" << endl;

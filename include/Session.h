@@ -4,7 +4,9 @@
 #include <vector>
 #include <string>
 #include "Graph.h"
+#include "../cmake-build-debug/json.hpp"
 using namespace std;
+using json = nlohmann::json;
 
 class Agent;
 
@@ -29,7 +31,6 @@ public:
     void simulate();
     void addAgent(const Agent& agent);
     void setGraph(const Graph& graph); // from the office-hours: {g = graph;}
-    
     void enqueueInfected(int);
     int dequeueInfected();
     TreeType getTreeType() const;
@@ -43,6 +44,7 @@ private:
     TreeType treeType;
     std::vector<Agent*> agents;
     void createOutput();
+    void initAgents(json& j);
 
 protected:
     vector<int> infectedQueue; //a queue which carry the indexes of the infected nodes.

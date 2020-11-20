@@ -48,9 +48,11 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
         for (int i = 0; i < currNeighbors.size(); i++) { //running through curr node's neighbors
             if (currNeighbors.at(i) != 0 && wasAdded.at(i) == 0) {
                 Tree* toAdd = tempTree->createTree(session, i); //creating a neighbor as a new tree
-                tempTree->addChild(*toAdd); //adding a neighbor as a new child to curr node tree
+                tempTree->addChild(*toAdd); //add a neighbor as a new child to curr tree;
+                // !!!addChild creates tempTree clone so there is a need to release the memory here!!!
                 wasAdded.at(i) = 1; //marking the neighbor as 'taken care of'
                 queue.push_back(toAdd); //adding neighbor to queue for next BFS 'scans'
+                delete toAdd;
             }
         }
     }

@@ -25,7 +25,9 @@ void Virus::act(Session &session) { // Animal
             Virus *addV = new Virus(ind);
             session.addAgent(*addV); //add neighbor as new agent
             //ind = session.numOfNodes; //break -> not needed after all
+            delete addV; //cause addAgent creates a deep copy of 'addV'
         }
     }
+    neighbors.clear();
 }
 

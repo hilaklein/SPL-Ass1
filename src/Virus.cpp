@@ -18,13 +18,13 @@ void Virus::act(Session &session) { // Animal
     if (!tempGraph->isInfected(nodeInd))
         session.enqueueInfected(nodeInd); //if node was never infected (in the infectedQueue), then mark it as infected
     vector<int> neighbors = tempGraph->getNeighbors(nodeInd); //receiving current virus neighbors
-    for (int i = 0; i < session.numOfNodes; i++) { //running through curr virus neighbors to spread into one that was never infected
+    for (int ind : neighbors) { //running through curr virus neighbors to spread into one that was never infected
         //do nor spread into yourself -> you are already infected + check that neighbor.at(i) was never infected
-        if (neighbors.at(i) == 1 && !tempGraph->isInfected(i)) {
-            tempGraph->infectNode(i); //mark neighbor as infected
-            Virus *addV = new Virus(i);
+        if (!tempGraph->isInfected(ind)) {
+            tempGraph->infectNode(ind); //mark neighbor as infected
+            Virus *addV = new Virus(ind);
             session.addAgent(*addV); //add neighbor as new agent
-            i = session.numOfNodes; //break
+            //ind = session.numOfNodes; //break -> not needed after all
         }
     }
 }

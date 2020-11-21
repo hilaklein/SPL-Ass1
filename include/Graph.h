@@ -10,7 +10,6 @@ public:
     Graph(vector<vector<int>> matrix);
 
     Graph();
-//    Graph(const Graph &aGraph); // - copy constructor
     vector<int> getNeighbors(int nodeIndex);
     void infectNode(int nodeInd);
     bool isInfected(int nodeInd);
@@ -18,6 +17,7 @@ public:
     vector<int> wasInfected;
     bool isAllInfected();
     bool canSpread();
+    void disconnectNode(int nodeToDisconnect);
 
 private:
     std::vector<std::vector<int>> edges;

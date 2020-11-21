@@ -83,3 +83,11 @@ bool Graph::canSpread() {
     }
     return false;
 }
+
+void Graph::disconnectNode(int nodeToDisconnect) {
+    vector<int> neighbors = getNeighbors(nodeToDisconnect);
+    for (int i = 0; i < edges.size(); i++) {
+        edges.at(nodeToDisconnect).at(i) = 0;
+        edges.at(i).at(nodeToDisconnect) = 0;
+    }
+}

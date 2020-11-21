@@ -181,6 +181,9 @@ void Session::createOutput() {
     }
     j["infected"] = g.wasInfected;
     output << j;
+    tempNeighbors.clear();
+    zeros.clear();
+    addV.clear();
     j.clear();
 }
 

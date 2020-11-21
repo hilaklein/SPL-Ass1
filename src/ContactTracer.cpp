@@ -18,14 +18,16 @@ void ContactTracer::act(Session &session) {
     int dequeueNode = session.dequeueInfected(); // dequeues a wantedNode from infectedQueue
     Tree* currTree = createBFS(session, dequeueNode); //sends to BFS the wantedNode so it would build a tree with wantedNode as a root
     int nodeToDisconnect = currTree->traceTree(); // calls the traceTree() and receives the nodeToDisconnect (depending on treeTYpe)
-    Graph* tempGraph = &session.getGraph();
-    vector<int> neighbors = tempGraph->getNeighbors(nodeToDisconnect);
-    for (int i = 0; i < neighbors.size(); i++) { //removes all the nodeToDisconnect's edges
-        neighbors.at(i) = 0;
-        tempGraph->getNeighbors(i).at(nodeToDisconnect) = 0;
-    }
+    //Graph* tempGraph = &session.getGraph();
+    //!disconnectNode (which will be Graph.cpp method) logic insert here, instead of trying to disconnect remotely, cause it doesnt working:
+    session.getGraph().disconnectNode(nodeToDisconnect);
+//    vector<int> neighbors = tempGraph->getNeighbors(nodeToDisconnect);
+//    for (int i = 0; i < neighbors.size(); i++) { //removes all the nodeToDisconnect's edges
+//        neighbors.at(i) = 0;
+//        tempGraph->getNeighbors(i).at(nodeToDisconnect) = 0;
+//    }
     delete currTree;
-    neighbors.clear();
+    //neighbors.clear();
 }
 
 Tree* ContactTracer::createBFS(Session &session, int rootNode) {

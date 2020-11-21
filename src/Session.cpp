@@ -30,6 +30,7 @@ Session::Session(const std::string &path) : numOfNodes(0), cycleCounter(0), g(),
             break;
     }
     cout<<"running in Session: before agents initialization" << endl;
+
     initAgents(j);
     j.clear();
     tempTreeType.clear();
@@ -130,8 +131,13 @@ void Session::simulate() {
     bool allAreInfected = g.isAllInfected();
     bool virusCanSpread = g.canSpread();
     int debugIndex = 0;
-    while(!allAreInfected || virusCanSpread) {
+    while(!allAreInfected && virusCanSpread) {
         cout << "session: simulate: while loop: debugger loop indicator. loop #" << debugIndex << endl;
+        cout << "curr wasInfected: ";
+        for (int i = 0; i < numOfNodes; i ++){
+            cout << g.wasInfected.at(i) << " ";
+        }
+        cout << endl;
         debugIndex++;
         int size = agents.size();
         for (int i = 0 ; i < size; i++){
@@ -178,6 +184,10 @@ void Session::createOutput() {
     j["infected"] = g.wasInfected;
     output << j;
     j.clear();
+}
+
+bool Session::infQueueIsEmpty() {
+    return this->infectedQueue.empty();
 }
 
 

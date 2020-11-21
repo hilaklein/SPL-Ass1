@@ -35,6 +35,7 @@ public:
     int dequeueInfected();
     TreeType getTreeType() const;
     Graph& getGraph(); // const;
+    bool infQueueIsEmpty();
 
     int cycleCounter;
 

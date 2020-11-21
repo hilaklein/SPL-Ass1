@@ -14,6 +14,7 @@ Agent * ContactTracer::clone() const{
 }
 
 void ContactTracer::act(Session &session) {
+    if (session.infQueueIsEmpty()) return;
     int dequeueNode = session.dequeueInfected(); // dequeues a wantedNode from infectedQueue
     Tree* currTree = createBFS(session, dequeueNode); //sends to BFS the wantedNode so it would build a tree with wantedNode as a root
     int nodeToDisconnect = currTree->traceTree(); // calls the traceTree() and receives the nodeToDisconnect (depending on treeTYpe)

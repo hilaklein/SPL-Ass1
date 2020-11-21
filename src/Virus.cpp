@@ -15,8 +15,10 @@ Agent* Virus::clone() const{
 
 void Virus::act(Session &session) { // Animal
     Graph* tempGraph = &session.getGraph(); //receive current state of graph
-    if (!tempGraph->isInfected(nodeInd))
+    if (!tempGraph->isInfected(nodeInd)) {
         session.enqueueInfected(nodeInd); //if node was never infected (in the infectedQueue), then mark it as infected
+        tempGraph->infectNode(nodeInd);
+    }
     vector<int> neighbors = tempGraph->getNeighbors(nodeInd); //receiving current virus neighbors
     for (int ind : neighbors) { //running through curr virus neighbors to spread into one that was never infected
         //do nor spread into yourself -> you are already infected + check that neighbor.at(i) was never infected

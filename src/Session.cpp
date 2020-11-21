@@ -127,24 +127,14 @@ void Session::setGraph(const Graph &graph) {
 void Session::simulate() {
     bool allAreInfected = false;
     bool virusCanSpread = true;
-//    int debugIndex = 0;
     while(!allAreInfected && virusCanSpread) {
-//        cout << "session: simulate: while loop: debugger loop indicator. loop #" << debugIndex << endl;
-//        cout << "curr wasInfected: ";
-//        for (int i = 0; i < numOfNodes; i ++){
-//            cout << g.wasInfected.at(i) << " ";
-//        }
-//        cout << endl;
-//        debugIndex++;
         int size = agents.size();
         for (int i = 0 ; i < size; i++){
             agents.at(i)->act(*this);
-            //cout << "session: simulate: while loop: for loop: debugger loop indicator. loop #" << i << endl;
         }
         allAreInfected = g.isAllInfected();
         virusCanSpread = g.canSpread();
     }
-    cout << "session: simulate: while loop ended " << endl;
     createOutput();
 }
 

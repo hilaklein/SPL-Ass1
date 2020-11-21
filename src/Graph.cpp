@@ -73,7 +73,7 @@ bool Graph::canSpread() {
         if (isInfected(i)){
             vector<int> tempNeighbors = getNeighbors(i);
             for (int k = 0; k < tempNeighbors.size(); k++){
-                if (tempNeighbors.at(k) == 0) {
+                if (tempNeighbors.at(k) == 1) {
                     tempNeighbors.clear();
                     return true;
                 }

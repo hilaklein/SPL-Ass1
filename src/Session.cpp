@@ -125,30 +125,27 @@ void Session::setGraph(const Graph &graph) {
 }
 
 void Session::simulate() {
-    cout << "Session: simulate: line before createOutput()" << endl;
-    createOutput(); // -> remove this line back to the bottom of the method in the end of the tests
-    cout << "Session: simulate: line after createOutput()" << endl;
-    bool allAreInfected = g.isAllInfected();
-    bool virusCanSpread = g.canSpread();
-    int debugIndex = 0;
+    bool allAreInfected = false;
+    bool virusCanSpread = true;
+//    int debugIndex = 0;
     while(!allAreInfected && virusCanSpread) {
-        cout << "session: simulate: while loop: debugger loop indicator. loop #" << debugIndex << endl;
-        cout << "curr wasInfected: ";
-        for (int i = 0; i < numOfNodes; i ++){
-            cout << g.wasInfected.at(i) << " ";
-        }
-        cout << endl;
-        debugIndex++;
+//        cout << "session: simulate: while loop: debugger loop indicator. loop #" << debugIndex << endl;
+//        cout << "curr wasInfected: ";
+//        for (int i = 0; i < numOfNodes; i ++){
+//            cout << g.wasInfected.at(i) << " ";
+//        }
+//        cout << endl;
+//        debugIndex++;
         int size = agents.size();
         for (int i = 0 ; i < size; i++){
             agents.at(i)->act(*this);
-            cout << "session: simulate: while loop: for loop: debugger loop indicator. loop #" << i << endl;
+            //cout << "session: simulate: while loop: for loop: debugger loop indicator. loop #" << i << endl;
         }
         allAreInfected = g.isAllInfected();
         virusCanSpread = g.canSpread();
     }
     cout << "session: simulate: while loop ended " << endl;
-    //createOutput(); -> remove the 'commentOut' after tests
+    createOutput();
 }
 
 void Session::initAgents(json& j) {
@@ -166,6 +163,9 @@ void Session::initAgents(json& j) {
 }
 
 void Session::createOutput() {
+    if (std::ifstream ("./output.json"))
+        remove("./output.json");
+
     std::ofstream output("./output.json");
     json j;
     vector<int> tempNeighbors;
@@ -179,8 +179,6 @@ void Session::createOutput() {
         j["graph"][i] = addV;
         addV = zeros;
     }
-    //vector<int> toPrint = g.wasInfected;
-    //cout << "Session: createOutput: line before j['infected']: wasInfected:" << toPrint. << endl;
     j["infected"] = g.wasInfected;
     output << j;
     j.clear();

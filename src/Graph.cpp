@@ -1,10 +1,31 @@
 #include "../include/Graph.h"
 #include <vector>
+#include <iostream>
 using namespace std;
 
 //Graph constructor
-Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(edges.size(), 0), edges(vector<vector<int>>()) {
+Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()), edges(vector<vector<int>>()) {
+    wasInfected = vector<int>(matrix.size(), 0);
+    cout << "printing 'matrix' (in Graph constructor): " << endl;
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        for (int j = 0; j < matrix[i].size(); j++)
+        {
+            cout << matrix[i][j];
+        }
+        cout<<endl;
+    }
     edges = matrix;
+    cout << "printing 'edges' (in Graph constructor): " << endl;
+    for (int i = 0; i < edges.size(); i++)
+    {
+        for (int j = 0; j < edges[i].size(); j++)
+        {
+            cout << edges[i][j];
+        }
+        cout<<endl;
+    }
+    matrix.clear();
 }
 
 Graph::Graph() {}

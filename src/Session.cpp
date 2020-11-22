@@ -53,14 +53,10 @@ Session::~Session() {// destructor
 
 // copy constructor
 Session::Session(Session &other) : numOfNodes(other.numOfNodes),cycleCounter(other.cycleCounter),
-agents(),g(other.g),treeType(other.treeType), infectedQueue() {
+agents(),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {
     int size = other.agents.size();
     for(int i = 0; i < size; i++){
         agents.push_back(other.agents[i]);
-    }
-    size = other.infectedQueue.size();
-    for(int i = 0; i < size; i++){
-        infectedQueue.push_back(other.infectedQueue[i]);
     }
 }
 
@@ -72,6 +68,7 @@ Session & Session::operator=(const Session &other) {
     cycleCounter = other.cycleCounter;
     g = other.g;
     treeType = other.treeType;
+    infectedQueue = other.infectedQueue;
     if (!agents.empty()) {
         int size = agents.size();
         for (int i = 0; i < size; i++) {
@@ -91,39 +88,46 @@ Session::Session(Session &&other) : numOfNodes(other.numOfNodes), cycleCounter(o
                                     g(other.g), treeType(other.treeType), agents(), infectedQueue() {
     int size = other.agents.size();
     for(int i = 0 ; i < size ; i++) {
-        agents.push_back(other.agents[i]);
-        other.agents[i] = nullptr;
+        agents.push_back(other.agents[i]->clone());
+        delete other.agents[i];
     }
     other.agents.clear();
     int infectedSize = other.infectedQueue.size();
-    for(int i=0; i<size ; i++){
+    for(int i = 0; i < infectedSize; i++){
         infectedQueue.push_back(other.infectedQueue[i]);
     }
 }
 
-// move assignment  S1=S2
+// move assignment
 Session& Session::operator=(Session &&other) noexcept {
     if (this == &other)
         return *this;
-    int size = agents.size();
-    for (int i = 0; i < size; i++) {
-        if (agents[i]) {
+    if (!agents.empty()) {
+        int size = agents.size();
+        for (int i = 0; i < size; i++) {
             delete agents[i];
+
         }
-        agents.clear();
     }
+    agents.clear();
+    infectedQueue.clear();
+
     int otherSize = other.agents.size();
     for (int i = 0; i < otherSize; i++) {
         agents.push_back(other.agents[i]);
         other.agents.at(i) = nullptr;
     }
+    numOfNodes = other.numOfNodes;
+    cycleCounter = other.cycleCounter;
+    g = other.g;
+    treeType = other.treeType;
+    infectedQueue = other.infectedQueue;
     return *this;
 }
 
 void Session::enqueueInfected(int x) {
     infectedQueue.push_back(x);
 }
-//what what
 
 int Session::dequeueInfected(){
     int outputNode = infectedQueue.front();

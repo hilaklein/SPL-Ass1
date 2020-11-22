@@ -4,13 +4,14 @@ using namespace std;
 
 
 //Graph constructor
-Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()), edges(vector<vector<int>>()) {
+Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()),yellow(vector<int>()), edges(vector<vector<int>>()) {
     wasInfected = vector<int>(matrix.size(), 0);
+    yellow = vector<int>(matrix.size(), 0);
     edges = matrix;
     matrix.clear();
 }
 
-Graph::Graph() : wasInfected(), edges() {}
+Graph::Graph() : wasInfected(),yellow(), edges() {}
 
 
 vector<int> Graph::getNeighbors(int nodeIndex) {
@@ -59,7 +60,6 @@ bool Graph::canSpread() {
 }
 
 void Graph::disconnectNode(int nodeToDisconnect) {
-    vector<int> neighbors = getNeighbors(nodeToDisconnect);
     int edgesSize = edges.size();
     for (int i = 0; i < edgesSize; i++) {
         edges.at(nodeToDisconnect).at(i) = 0;

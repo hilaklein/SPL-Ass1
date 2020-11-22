@@ -77,6 +77,7 @@ Session & Session::operator=(const Session &other) {
         Agent *a = other.agents[i];
         agents.push_back(a);
     }
+    return *this;
 }
 
 // move constructor
@@ -106,6 +107,7 @@ Session& Session::operator=(Session &&other) noexcept {
     for (int i = 0; i < otherChildSize; i++) {
         agents.push_back(other.agents[i]);
     }
+    return *this;
 }
 
 void Session::enqueueInfected(int x) {

@@ -47,7 +47,7 @@ Session::~Session() {// destructor
 
 // copy constructor
 Session::Session(Session &other) : numOfNodes(other.numOfNodes),cycleCounter(other.cycleCounter),
-agents(),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {
+                                   g(other.g),treeType(other.treeType), agents(), infectedQueue(other.infectedQueue) {
     int size = other.agents.size();
     for(int i = 0; i < size; i++){
         agents.push_back(other.agents[i]);

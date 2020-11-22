@@ -1,12 +1,11 @@
 #include <vector>
 #include "../include/Session.h"
 #include "../include/Agent.h"
-#include "../include/Tree.h"
 
 using namespace std;
 
-ContactTracer::ContactTracer() {}
-
+ContactTracer::ContactTracer() = default;
+ContactTracer::~ContactTracer() = default;
 ContactTracer::ContactTracer(const Agent& aCT) {}
 
 Agent * ContactTracer::clone() const{
@@ -22,7 +21,7 @@ void ContactTracer::act(Session &session) {
     //!disconnectNode (which will be Graph.cpp method) logic insert here, instead of trying to disconnect remotely, cause it doesnt working:
     session.getGraph().disconnectNode(nodeToDisconnect);
 //    vector<int> neighbors = tempGraph->getNeighbors(nodeToDisconnect);
-//    for (int i = 0; i < neighbors.size(); i++) { //removes all the nodeToDisconnect's edges
+//    for (int i = 0; i < neighbors.size(); i++) { //removes all the nodeTo Disconnect is edges
 //        neighbors.at(i) = 0;
 //        tempGraph->getNeighbors(i).at(nodeToDisconnect) = 0;
 //    }
@@ -43,16 +42,16 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
         tempTree = queue.front(); //dequeue 1st stage
         queue.erase(queue.begin()); // dequeue 2nd stage
         wasAdded.at(tempTree->getNodeIndex()) = 1; //marking the dequeued node as 'taken care of'
-        vector<int> currNeighbors = tempGraph->getNeighbors(tempTree->getNodeIndex()); //curr node's neighbors - they are potential childs
+        vector<int> currNeighbors = tempGraph->getNeighbors(tempTree->getNodeIndex()); //curr node's neighbors - they are potential children
 
         for (int i : currNeighbors) { //running through curr node's neighbors
             if (wasAdded.at(i) == 0) {
-                Tree* toAdd = Tree::createTree(session, i); //creating a neighbor as a new tree
+                toAdd = Tree::createTree(session, i); //creating a neighbor as a new tree
                 tempTree->addChild(*toAdd); //add a neighbor as a new child to curr tree;
                 // !!!addChild creates tempTree clone so there is a need to release the memory here!!!
                 wasAdded.at(i) = 1; //marking the neighbor as 'taken care of'
                 queue.push_back(&(tempTree->getChild(i))); //adding neighbor to queue for next BFS 'scans'
-                delete toAdd;// -> leave it commentout: i think it deletes toAdd also as tempTree child -> the reason is that tempTree.addChild pushes toAddd as a pointer and
+                delete toAdd;// -> leave it comment out: i think it deletes toAdd also as tempTree child -> the reason is that tempTree.addChild pushes toAdd as a pointer and
                 // not as new instance, because tempTree children vector is vector of pointers
             }
         }

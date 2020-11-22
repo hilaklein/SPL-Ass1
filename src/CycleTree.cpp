@@ -6,7 +6,7 @@ int CycleTree::traceTree() {
     int output = node;
     Tree* tempTree = children.front();
     for (int i = 0; i < currCycle; i++){
-        if (tempTree == 0)
+        if (tempTree == nullptr)
             return output;
         tempTree = tempTree->getChildren().front();
         output = tempTree->getNodeIndex();

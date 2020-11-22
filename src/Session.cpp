@@ -3,13 +3,13 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-//#include "../cmake-build-debug/json.hpp"
+#include "../cmake-build-debug/json.hpp"
 using json = nlohmann::json;
 
 using namespace std;
 
 
-Session::Session(const std::string &path) :allInfected(false),containVirus(true), numOfNodes(0), cycleCounter(0), g(), treeType(), agents(vector<Agent*>()), infectedQueue(vector<int>()) {
+Session::Session(const std::string &path) :allInfected(false), containVirus(true), numOfNodes(0), cycleCounter(0), g(), treeType(), agents(vector<Agent*>()), infectedQueue(vector<int>()) {
     ifstream configFile(path);
     json j;
     j << configFile;
@@ -52,7 +52,7 @@ Session::~Session() {// destructor
 }
 
 // copy constructor
-Session::Session(Session &other) : allInfected(other.allInfected), containVirus(other.containVirus),numOfNodes(other.numOfNodes),cycleCounter(other.cycleCounter), agents(other.agents),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {}
+Session::Session(Session &other) :allInfected(other.allInfected),containVirus(other.containVirus), numOfNodes(other.numOfNodes),cycleCounter(other.cycleCounter), agents(other.agents),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {}
 
 
 // copy assignment
@@ -122,9 +122,7 @@ void Session::addAgent(const Agent &agent) {
     agents.push_back(agent.clone());
 }
 
-void Session::setGraph(const Graph &graph) {
-
-}
+//void Session::setGraph(const Graph &graph) {}
 
 void Session::simulate() {
     bool allAreInfected = false;
@@ -149,6 +147,8 @@ void Session::initAgents(json& j) {
             case 'V': addAgent(Virus(nodeIndex));
                 break;
             case 'C': addAgent(ContactTracer());
+                break;
+            default:
                 break;
         }
     }

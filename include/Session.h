@@ -22,7 +22,7 @@ public:
     virtual ~Session(); // destructor
     Session(Session& other); // copy constructor
     Session& operator=(const Session &other); // copy Assignment
-    Session(Session &&other); // move ctr
+    Session(Session &&other) noexcept; // move ctr
     Session& operator=(Session &&other) noexcept; // move assignment
     int numOfNodes; //number of given nodes
 

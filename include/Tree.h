@@ -8,23 +8,24 @@ class Session;
 
 class Tree {
 public:
+    Tree();
     Tree(int rootLabel);
     virtual ~Tree(); // destructor
     Tree(const Tree& other); // copy constructor Tree t1(t2)
     Tree &operator=(const Tree &other); // copy Assignment T1=T2
     Tree(Tree &&other) noexcept; // move ctr
-    Tree& operator=(Tree &&other); // move assignment
+    Tree& operator=(Tree &&other) noexcept; // move assignment
 
     void addChild(const Tree &child);
 
-    Tree &getChild(int) const;
+    Tree & getChild(int) const;
 
     static Tree *createTree(Session &session, int rootLabel);
 
     virtual int traceTree()=0;
 
     //maybe there is another way to receive children vector????????????????????????????????????????
-    const vector<Tree*> getChildren() const;
+    vector<Tree*> getChildren() const;
 
     int getNodeIndex() const;
 

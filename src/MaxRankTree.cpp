@@ -5,7 +5,7 @@ MaxRankTree::MaxRankTree(int rootLabel) : Tree(rootLabel) {}
 
 int MaxRankTree::traceTree() {
     int output = node;
-    if (children.size() == 0)
+    if (!children.empty())
         return output;
     int tempValue;
     for (Tree* tempTree:children){

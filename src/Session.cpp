@@ -84,8 +84,12 @@ Session & Session::operator=(const Session &other) {
 }
 
 // move constructor
-Session::Session(Session &&other) : numOfNodes(other.numOfNodes), cycleCounter(other.cycleCounter),
-                                    g(other.g), treeType(other.treeType), agents(), infectedQueue() {
+Session::Session(Session &&other) noexcept : numOfNodes(), cycleCounter(),
+                                    g(), treeType(), agents(), infectedQueue() {
+    numOfNodes = other.numOfNodes;
+    cycleCounter = other.cycleCounter;
+    g = other.g;
+    treeType = other.treeType;
     int size = other.agents.size();
     for(int i = 0 ; i < size ; i++) {
         agents.push_back(other.agents[i]->clone());

@@ -10,7 +10,7 @@ Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()),
     matrix.clear();
 }
 
-Graph::Graph() {}
+Graph::Graph() = default;
 
 
 

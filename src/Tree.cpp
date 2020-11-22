@@ -3,6 +3,8 @@
 #include "../include/Session.h"
 using namespace std;
 
+Tree::Tree() : node(0), children() {}
+
 Tree::Tree(int rootLabel) : node(rootLabel), children(vector<Tree*>()) {
 
 }
@@ -56,7 +58,7 @@ Tree::Tree(Tree &&other) noexcept : node(other.node), children() {
 }
 
 // move assignment
-Tree & Tree::operator=(Tree &&other) {
+Tree & Tree::operator=(Tree &&other) noexcept {
     if (this == &other)
         return *this;
     if (!children.empty()) {
@@ -82,11 +84,14 @@ void Tree::addChild(const Tree& child){
 }
 
 Tree& Tree::getChild(int nodeIndex) const {
+    Tree* t = nullptr;
     for (Tree *itr:children) {
-        if (itr->node == nodeIndex)
-            return *itr;
-        //verify that there is no NullPointerException in case node with nodeIndex does not exist in current tree
+        if (itr->node == nodeIndex) {
+            t = itr;
+            return *t;
+        }
     }
+    return *t;
 }
 
 Tree* Tree::createTree(Session& session, int rootLabel) {
@@ -94,13 +99,10 @@ Tree* Tree::createTree(Session& session, int rootLabel) {
     switch (session.getTreeType()) {
         case MaxRank :
             return new MaxRankTree(rootLabel);
-            break;
         case Root :
             return new RootTree(rootLabel);
-            break;
         case Cycle :
             return new CycleTree(rootLabel, session.cycleCounter);
-            break;
     }
 
 //createTree(){
@@ -113,6 +115,6 @@ Tree* Tree::createTree(Session& session, int rootLabel) {
 
 int Tree:: getNodeIndex() const {return node;}
 
-const vector<Tree *> Tree::getChildren() const {
+vector<Tree *> Tree::getChildren() const {
     return children;
 }

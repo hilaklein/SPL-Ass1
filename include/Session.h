@@ -24,7 +24,6 @@ public:
     Session& operator=(const Session &other); // copy Assignment
     Session(Session &&other) noexcept; // move ctr
     Session& operator=(Session &&other) noexcept; // move assignment
-    int numOfNodes; //number of given nodes
 
     void simulate();
     void addAgent(const Agent& agent);
@@ -35,15 +34,17 @@ public:
     Graph& getGraph(); // const;
     bool infQueueIsEmpty();
 
+    int numOfNodes; //number of given nodes
     int cycleCounter;
 
 private:
     //const vector<vector<int>> buildMatrix(string graph); -- seems like we dont need this one cause Graph constructor can receive j["graph"] as vector matrix
+    void createOutput();
+    void initAgents(json& j);
     Graph g;
     TreeType treeType;
     std::vector<Agent*> agents;
-    void createOutput();
-    void initAgents(json& j);
+
 
 protected:
     vector<int> infectedQueue; //a queue which carry the indexes of the infected nodes.

@@ -12,8 +12,8 @@ public:
     virtual ~Tree(); // destructor
     Tree(const Tree& other); // copy constructor Tree t1(t2)
     Tree &operator=(const Tree &other); // copy Assignment T1=T2
-    Tree(Tree &&other); // move ctr
-    Tree &operator=(Tree &&other); // move assignment
+    Tree(Tree &&other) noexcept; // move ctr
+    Tree& operator=(Tree &&other); // move assignment
 
     void addChild(const Tree &child);
 

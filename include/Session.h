@@ -21,11 +21,9 @@ public:
     Session(const std::string& path);
     virtual ~Session(); // destructor
     Session(Session& other); // copy constructor
-    Session &operator=(const Session &other); // copy Assignment
+    Session& operator=(const Session &other); // copy Assignment
     Session(Session &&other); // move ctr
-    Session operator=(Session &&other); // move assignment
-    bool allInfected;
-    bool containVirus;
+    Session& operator=(Session &&other) noexcept; // move assignment
     int numOfNodes; //number of given nodes
 
     void simulate();

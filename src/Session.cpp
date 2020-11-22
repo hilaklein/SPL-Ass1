@@ -113,6 +113,7 @@ Session& Session::operator=(Session &&other) noexcept {
 void Session::enqueueInfected(int x) {
     infectedQueue.push_back(x);
 }
+//what what
 
 int Session::dequeueInfected(){
     int outputNode = infectedQueue.front();

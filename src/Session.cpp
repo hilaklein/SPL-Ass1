@@ -8,19 +8,16 @@ using json = nlohmann::json;
 using namespace std;
 
 
-Session::Session(const std::string &path) : numOfNodes(0), cycleCounter(0), g(),
-treeType(), agents(vector<Agent*>()), infectedQueue(vector<int>()) {
+Session::Session(const std::string &path) : numOfNodes(), cycleCounter(), g(),
+treeType(), agents(), infectedQueue() {
     ifstream configFile(path);
     json j;
     configFile >> j;
-    cout<<"running in Session" << endl;
 
     numOfNodes = j["graph"].size();
     g = Graph(j["graph"]);
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
-    cout<<"running in Session: before switch" << endl;
-
     switch (charTreeType){
         case 'M' : treeType = MaxRank;
             break;
@@ -31,14 +28,11 @@ treeType(), agents(vector<Agent*>()), infectedQueue(vector<int>()) {
         default:
             break;
     }
-    cout<<"running in Session: before agents initialization" << endl;
 
     initAgents(j);
     j.clear();
     tempTreeType.clear();
     configFile.close();
-    cout<<"running in Session: after j.clear" << endl;
-
 }
 
 Session::~Session() {// destructor

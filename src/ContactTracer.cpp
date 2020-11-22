@@ -34,29 +34,28 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
     Tree* outputTree = Tree::createTree(session, rootNode); //create desired type tree
     Graph* tempGraph = &session.getGraph(); //receive current state of graph
     Tree* tempTree;
-    vector<Tree> queue; //queue of nodes to run a BFS algorithm on them
+    vector<Tree *> queue; //queue of nodes to run a BFS algorithm on them
     vector<int> wasAdded(session.numOfNodes, 0); //nodes that were already added to tree as someone's child - prevents to add some node two times as child
-    Tree* toAdd;
 
-    queue.push_back(*outputTree); //adding first node - it'll be the root of desired BFS tree
+    queue.push_back(outputTree); //adding first node - it'll be the root of desired BFS tree
 
     while(!queue.empty()) {
-        tempTree = &queue.front(); //dequeue 1st stage
+        tempTree = queue.front(); //dequeue 1st stage
+        queue.erase(queue.begin()); // dequeue 2nd stage
         wasAdded.at(tempTree->getNodeIndex()) = 1; //marking the dequeued node as 'taken care of'
         vector<int> currNeighbors = tempGraph->getNeighbors(tempTree->getNodeIndex()); //curr node's neighbors - they are potential childs
 
         for (int i = 0; i < currNeighbors.size(); i++) { //running through curr node's neighbors
             if (wasAdded.at(i) == 0) {
-                toAdd = Tree::createTree(session, i); //creating a neighbor as a new tree
+                Tree* toAdd = Tree::createTree(session, i); //creating a neighbor as a new tree
                 tempTree->addChild(*toAdd); //add a neighbor as a new child to curr tree;
                 // !!!addChild creates tempTree clone so there is a need to release the memory here!!!
                 wasAdded.at(i) = 1; //marking the neighbor as 'taken care of'
-                queue.push_back(*toAdd); //adding neighbor to queue for next BFS 'scans'
-                delete toAdd; //-> leave it commentout: i think it deletes toAdd also as tempTree child -> the reason is that tempTree.addChild pushes toAddd as a pointer and
+                queue.push_back(toAdd); //adding neighbor to queue for next BFS 'scans'
+                //delete toAdd; -> leave it commentout: i think it deletes toAdd also as tempTree child -> the reason is that tempTree.addChild pushes toAddd as a pointer and
                 // not as new instance, because tempTree children vector is vector of pointers
             }
         }
-        queue.erase(queue.begin()); // dequeue 2nd stage
     }
     //delete tempTree; - don't think this is needed here cause we still be needed Trees' data on the heap
     queue.clear();

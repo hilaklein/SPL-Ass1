@@ -65,7 +65,7 @@ agents(),g(other.g),treeType(other.treeType), infectedQueue() {
 // copy assignment
 Session & Session::operator=(const Session &other) {
     if (this == &other) return *this;
-    if(!agents.empty()) {
+    if (!agents.empty()) {
         int size = agents.size();
         for (int i = size - 1; i >= 0; i--) {
             delete agents[i];
@@ -73,11 +73,10 @@ Session & Session::operator=(const Session &other) {
     }
     agents.clear();
     int otherChildSize = other.agents.size();
-    for(int i = 0 ; i < otherChildSize; i++) {
+    for (int i = 0; i < otherChildSize; i++) {
         Agent *a = other.agents[i];
         agents.push_back(a);
     }
-    return *this;
 }
 
 // move constructor

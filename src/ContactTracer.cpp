@@ -31,14 +31,11 @@ void ContactTracer::act(Session &session) {
 }
 
 Tree* ContactTracer::createBFS(Session &session, int rootNode) {
-    Tree *outputTree = Tree::createTree(session, rootNode); //create desired type tree
+    Tree* outputTree = Tree::createTree(session, rootNode); //create desired type tree
     Graph* tempGraph = &session.getGraph(); //receive current state of graph
-    Tree *tempTree;
+    Tree* tempTree;
     vector<Tree *> queue; //queue of nodes to run a BFS algorithm on them
-    vector<int> wasAdded; //nodes that were already added to tree as someone's child - prevents to add some node two times as child
-
-    for (int i = 0; i < session.numOfNodes; i++) //initiate vector with 0's
-        wasAdded.push_back(0);
+    vector<int> wasAdded(session.numOfNodes, 0); //nodes that were already added to tree as someone's child - prevents to add some node two times as child
 
     queue.push_back(outputTree); //adding first node - it'll be the root of desired BFS tree
 
@@ -49,13 +46,14 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
         vector<int> currNeighbors = tempGraph->getNeighbors(tempTree->getNodeIndex()); //curr node's neighbors - they are potential childs
 
         for (int i = 0; i < currNeighbors.size(); i++) { //running through curr node's neighbors
-            if (currNeighbors.at(i) != 0 && wasAdded.at(i) == 0) {
+            if (wasAdded.at(i) == 0) {
                 Tree* toAdd = tempTree->createTree(session, i); //creating a neighbor as a new tree
                 tempTree->addChild(*toAdd); //add a neighbor as a new child to curr tree;
                 // !!!addChild creates tempTree clone so there is a need to release the memory here!!!
                 wasAdded.at(i) = 1; //marking the neighbor as 'taken care of'
                 queue.push_back(toAdd); //adding neighbor to queue for next BFS 'scans'
-                delete toAdd;
+                //delete toAdd; -> leave it commentout: i think it deletes toAdd also as tempTree child -> the reason is that tempTree.addChild pushes toAddd as a pointer and
+                // not as new instance, because tempTree children vector is vector of pointers
             }
         }
     }

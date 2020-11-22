@@ -54,10 +54,13 @@ Session::~Session() {// destructor
 // copy constructor
 Session::Session(Session &other) : numOfNodes(other.numOfNodes),cycleCounter(other.cycleCounter),
 agents(),g(other.g),treeType(other.treeType), infectedQueue() {
-    int size =other.agents.size();
-    for(int i = 0; i <size; i++){
-        infectedQueue.push_back(other.infectedQueue[i]);
+    int size = other.agents.size();
+    for(int i = 0; i < size; i++){
         agents.push_back(other.agents[i]);
+    }
+    size = other.infectedQueue.size();
+    for(int i = 0; i < size; i++){
+        infectedQueue.push_back(other.infectedQueue[i]);
     }
 }
 
@@ -65,17 +68,20 @@ agents(),g(other.g),treeType(other.treeType), infectedQueue() {
 // copy assignment
 Session & Session::operator=(const Session &other) {
     if (this == &other) return *this;
+    numOfNodes = other.numOfNodes;
+    cycleCounter = other.cycleCounter;
+    g = other.g;
+    treeType = other.treeType;
     if (!agents.empty()) {
         int size = agents.size();
-        for (int i = size - 1; i >= 0; i--) {
+        for (int i = 0; i < size; i++) {
             delete agents[i];
         }
     }
     agents.clear();
-    int otherChildSize = other.agents.size();
-    for (int i = 0; i < otherChildSize; i++) {
-        Agent *a = other.agents[i];
-        agents.push_back(a);
+    int otherSize = other.agents.size();
+    for (int i = 0; i < otherSize; i++) {
+        agents.push_back(other.agents[i]);
     }
     return *this;
 }

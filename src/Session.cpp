@@ -112,13 +112,13 @@ void Session::addAgent(const Agent &agent) {
     agents.push_back(agent.clone());
 }
 
-void Session::setGraph(const Graph &graph) {
+    void Session::setGraph(const Graph &graph) {
 
-}
+    }
 
-void Session::simulate() {
-    bool allAreInfected = g.isAllInfected();
-    bool virusCanSpread = g.canSpread();
+    void Session::simulate() {
+        bool allAreInfected = g.isAllInfected();
+        bool virusCanSpread = g.canSpread();
     while(!allAreInfected || virusCanSpread) {
         int size = agents.size();
         for (int i = 0 ; i < size; i++){

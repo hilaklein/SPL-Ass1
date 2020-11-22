@@ -82,16 +82,20 @@ Session & Session::operator=(const Session &other) {
 
 // move constructor
 Session::Session(Session &&other) : numOfNodes(other.numOfNodes), cycleCounter(other.cycleCounter),
-                                    /*g(*&other.g),*/ treeType(other.treeType), agents(*&other.agents), infectedQueue(*&other.infectedQueue), g(std::move(other.g)) {
-
+                                    g(other.g), treeType(other.treeType), agents(), infectedQueue() {
     int size = other.agents.size();
     for(int i = 0 ; i < size ; i++) {
+        agents.push_back(other.agents[i]);
         other.agents[i] = nullptr;
     }
     other.agents.clear();
+    int infectedSize = other.infectedQueue.size();
+    for(int i=0; i<size ; i++){
+        infectedQueue.push_back(other.infectedQueue[i]);
+    }
 }
 
-// move assignment
+// move assignment  S1=S2
 Session& Session::operator=(Session &&other) noexcept {
     if (this == &other)
         return *this;
@@ -102,10 +106,10 @@ Session& Session::operator=(Session &&other) noexcept {
         }
         agents.clear();
     }
-
-    int otherChildSize = other.agents.size();
-    for (int i = 0; i < otherChildSize; i++) {
+    int otherSize = other.agents.size();
+    for (int i = 0; i < otherSize; i++) {
         agents.push_back(other.agents[i]);
+        other.agents.at(i) = nullptr;
     }
     return *this;
 }

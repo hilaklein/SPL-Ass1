@@ -2,17 +2,23 @@
 #include <vector>
 using namespace std;
 
+
 //Graph constructor
 Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()), edges(vector<vector<int>>()) {
+    wasInfected = vector<int>(matrix.size(), 0);
     edges = matrix;
-    for (int i = 0; i < edges.size(); i++)
-        wasInfected.push_back(0);
+    matrix.clear();
 }
 
 Graph::Graph() {}
 
-//Graph copy-constructor
-//Graph::Graph(const Graph &aGraph) {
+// copy-constructor
+// destructor: release edges, release wasInfected
+// copy assignment
+// move constructor
+// move assignment
+
+//Graph::Graph(const Graph& aGraph) {
 //
 //}
 
@@ -24,6 +30,7 @@ vector<int> Graph::getNeighbors(int nodeIndex) {
         if (indexes.at(i) == 1)
             output.push_back(i);
     }
+    indexes.clear();
     return output;
 }
 
@@ -47,11 +54,22 @@ bool Graph::canSpread() {
     {
         if (isInfected(i)){
             vector<int> tempNeighbors = getNeighbors(i);
-            for (int k = 0; k < tempNeighbors.size(); k++){
-                if (tempNeighbors.at(k) == 0)
+            for (int k : tempNeighbors){
+                if (wasInfected.at(k) == 0) {
+                    tempNeighbors.clear();
                     return true;
+                }
             }
+            tempNeighbors.clear();
         }
     }
     return false;
+}
+
+void Graph::disconnectNode(int nodeToDisconnect) {
+    vector<int> neighbors = getNeighbors(nodeToDisconnect);
+    for (int i = 0; i < edges.size(); i++) {
+        edges.at(nodeToDisconnect).at(i) = 0;
+        edges.at(i).at(nodeToDisconnect) = 0;
+    }
 }

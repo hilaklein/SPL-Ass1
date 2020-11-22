@@ -5,3 +5,5 @@
 using namespace std;
 
 Agent::Agent() {}
+
+Agent::~Agent() {}

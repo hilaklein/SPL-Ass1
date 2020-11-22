@@ -169,11 +169,13 @@ void Session::createOutput() {
         j["graph"][i] = addV;
         addV = zeros;
     }
+
     vector<int> infectedNodes;
     for (int i = 0; i < numOfNodes; i++){
         if (g.wasInfected.at(i) == 1)
             infectedNodes.push_back(i);
     }
+
     j["infected"] = infectedNodes;
     output << j;
     tempNeighbors.clear();

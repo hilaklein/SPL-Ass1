@@ -64,7 +64,7 @@ void Tree::addChild(const Tree& child){
     children.push_back(child.clone());
 }
 
-const Tree& Tree::getChild(int nodeIndex) const {
+Tree& Tree::getChild(int nodeIndex) const {
     for (Tree *itr:children) {
         if (itr->node == nodeIndex)
             return *itr;

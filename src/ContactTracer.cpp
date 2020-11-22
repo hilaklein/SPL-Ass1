@@ -45,13 +45,13 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
         wasAdded.at(tempTree->getNodeIndex()) = 1; //marking the dequeued node as 'taken care of'
         vector<int> currNeighbors = tempGraph->getNeighbors(tempTree->getNodeIndex()); //curr node's neighbors - they are potential childs
 
-        for (int i = 0; i < currNeighbors.size(); i++) { //running through curr node's neighbors
+        for (int i : currNeighbors) { //running through curr node's neighbors
             if (wasAdded.at(i) == 0) {
-                Tree* toAdd = Tree::createTree(session, i); //creating a neighbor as a new tree
-                tempTree->addChild(*toAdd); //add a neighbor as a new child to curr tree;
+                //Tree* toAdd = Tree::createTree(session, i); //creating a neighbor as a new tree
+                tempTree->addChild(*Tree::createTree(session, i)); //add a neighbor as a new child to curr tree;
                 // !!!addChild creates tempTree clone so there is a need to release the memory here!!!
                 wasAdded.at(i) = 1; //marking the neighbor as 'taken care of'
-                queue.push_back(toAdd); //adding neighbor to queue for next BFS 'scans'
+                queue.push_back(&(tempTree->getChild(i))); //adding neighbor to queue for next BFS 'scans'
                 //delete toAdd; -> leave it commentout: i think it deletes toAdd also as tempTree child -> the reason is that tempTree.addChild pushes toAddd as a pointer and
                 // not as new instance, because tempTree children vector is vector of pointers
             }

@@ -17,7 +17,7 @@ public:
 
     void addChild(const Tree &child);
 
-    const Tree &getChild(int) const;
+    Tree &getChild(int) const;
 
     static Tree *createTree(Session &session, int rootLabel);
 

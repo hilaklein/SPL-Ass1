@@ -6,7 +6,7 @@ using namespace std;
 
 ContactTracer::ContactTracer() = default;
 ContactTracer::~ContactTracer() = default;
-ContactTracer::ContactTracer(const Agent& aCT) {}
+ContactTracer::ContactTracer(const ContactTracer& aCT) {}
 
 Agent * ContactTracer::clone() const{
     return new ContactTracer(*this);

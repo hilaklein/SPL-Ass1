@@ -12,15 +12,8 @@ Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()),
 
 Graph::Graph() {}
 
-// copy-constructor
-// destructor: release edges, release wasInfected
-// copy assignment
-// move constructor
-// move assignment
 
-//Graph::Graph(const Graph& aGraph) {
-//
-//}
+
 
 
 vector<int> Graph::getNeighbors(int nodeIndex) {

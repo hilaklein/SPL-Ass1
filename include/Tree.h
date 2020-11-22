@@ -19,14 +19,7 @@ public:
 
     const Tree &getChild(int) const;
 
-    static Tree *createTree(const Session &session, int rootLabel);
-    //createTree(){
-    //Tree* output;
-    // switch(of tree types which will define the instance of a desired Tree){
-    // case m :
-    // output = new maxranktree();
-    //return output;
-    //}
+    static Tree *createTree(Session &session, int rootLabel);
 
     virtual int traceTree()=0;
 

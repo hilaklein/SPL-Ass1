@@ -60,7 +60,7 @@ Tree & Tree::operator=(Tree &&other) { // move Assignment
     return *this;
 }
 
-void Tree::addChild(const Tree &child){
+void Tree::addChild(const Tree& child){
     children.push_back(child.clone());
 }
 
@@ -72,7 +72,7 @@ const Tree& Tree::getChild(int nodeIndex) const {
     }
 }
 
-Tree* Tree::createTree(const Session &session, int rootLabel) {
+Tree* Tree::createTree(Session& session, int rootLabel) {
 
     switch (session.getTreeType()) {
         case MaxRank :

@@ -95,16 +95,18 @@ Tree& Tree::getChild(int nodeIndex) const {
 }
 
 Tree* Tree::createTree(Session& session, int rootLabel) {
-
+    Tree* t = nullptr;
     switch (session.getTreeType()) {
         case MaxRank :
-            return new MaxRankTree(rootLabel);
+            t = new MaxRankTree(rootLabel);
+            return t;
         case Root :
-            return new RootTree(rootLabel);
+            t = new RootTree(rootLabel);
+            return t;
         case Cycle :
-            return new CycleTree(rootLabel, session.cycleCounter);
-        default : break;
-
+            t = new CycleTree(rootLabel, session.cycleCounter);
+            return t;
+        default : return t;
     }
 
 //createTree(){

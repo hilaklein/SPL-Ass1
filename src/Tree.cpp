@@ -9,9 +9,9 @@ Tree::Tree(int rootLabel) : node(rootLabel), children(vector<Tree*>()) {
 Tree::~Tree()  {
     int size = children.size();
     for(int i = size-1; i >=0 ; i--){
-        //!if(children[i]){ - return it later if needed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(children[i]){ //- return it later if needed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             delete children[i];
-        //}
+        }
         children.clear();
     }
 }

@@ -52,7 +52,7 @@ Tree* ContactTracer::createBFS(Session &session, int rootNode) {
                 // !!!addChild creates tempTree clone so there is a need to release the memory here!!!
                 wasAdded.at(i) = 1; //marking the neighbor as 'taken care of'
                 queue.push_back(toAdd); //adding neighbor to queue for next BFS 'scans'
-                //delete toAdd; -> leave it commentout: i think it deletes toAdd also as tempTree child -> the reason is that tempTree.addChild pushes toAddd as a pointer and
+                delete toAdd; //-> leave it commentout: i think it deletes toAdd also as tempTree child -> the reason is that tempTree.addChild pushes toAddd as a pointer and
                 // not as new instance, because tempTree children vector is vector of pointers
             }
         }

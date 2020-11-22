@@ -9,7 +9,7 @@ Tree::Tree(int rootLabel) : node(rootLabel), children(vector<Tree*>()) {
 Tree::~Tree()  {
     int size = children.size();
     for(int i = size-1; i >=0 ; i--){
-        if(children[i]){
+        if(children[i]){ //- return it later if needed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             delete children[i];
         }
         children.clear();
@@ -60,11 +60,11 @@ Tree & Tree::operator=(Tree &&other) { // move Assignment
     return *this;
 }
 
-void Tree::addChild(const Tree &child){
+void Tree::addChild(const Tree& child){
     children.push_back(child.clone());
 }
 
-const Tree& Tree::getChild(int nodeIndex) const {
+Tree& Tree::getChild(int nodeIndex) const {
     for (Tree *itr:children) {
         if (itr->node == nodeIndex)
             return *itr;
@@ -72,7 +72,7 @@ const Tree& Tree::getChild(int nodeIndex) const {
     }
 }
 
-Tree* Tree::createTree(const Session &session, int rootLabel) {
+Tree* Tree::createTree(Session& session, int rootLabel) {
 
     switch (session.getTreeType()) {
         case MaxRank :

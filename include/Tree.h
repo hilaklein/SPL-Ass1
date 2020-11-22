@@ -17,16 +17,9 @@ public:
 
     void addChild(const Tree &child);
 
-    const Tree &getChild(int) const;
+    Tree &getChild(int) const;
 
-    static Tree *createTree(const Session &session, int rootLabel);
-    //createTree(){
-    //Tree* output;
-    // switch(of tree types which will define the instance of a desired Tree){
-    // case m :
-    // output = new maxranktree();
-    //return output;
-    //}
+    static Tree *createTree(Session &session, int rootLabel);
 
     virtual int traceTree()=0;
 
@@ -50,6 +43,14 @@ public:
     CycleTree(int rootLabel, int currCycle);
     virtual int traceTree();
     virtual Tree* clone() const;
+
+    //destructor - not needed - there is Tree destructor, and 'currCircle' is on the stack
+    CycleTree(const CycleTree& other); //copy constructor
+    CycleTree & operator=(const CycleTree &other); //copy assignment
+    CycleTree(CycleTree &&other); //move constructor
+    CycleTree operator=(CycleTree &&other); //move assignment
+
+
 private:
     int currCycle;
 };

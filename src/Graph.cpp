@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 
+
 //Graph constructor
 Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()), edges(vector<vector<int>>()) {
     wasInfected = vector<int>(matrix.size(), 0);

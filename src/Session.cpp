@@ -166,7 +166,8 @@ void Session::simulate() {
 }
 
 void Session::initAgents(json& j) {
-    for (int i = 0; i < j["agents"].size(); i++){
+    int sizeAgents = j["agents"].size();
+    for (int i = 0; i < sizeAgents; i++){
         string str = j["agents"][i][0];
         int nodeIndex = j["agents"][i][1];
         char type = str.at(0);
@@ -190,9 +191,11 @@ void Session::createOutput() {
     vector<int> tempNeighbors;
     vector<int> zeros (numOfNodes, 0);
     vector<int> addV = zeros;
+    int sizeTempNeighbors;
     for (int i = 0; i < numOfNodes; i++) {
         tempNeighbors = g.getNeighbors(i);
-        for (int k = 0; k < tempNeighbors.size(); k++) {
+        sizeTempNeighbors = tempNeighbors.size();
+        for (int k = 0; k < sizeTempNeighbors; k++) {
             addV.at(tempNeighbors.at(k)) = 1;
         }
         j["graph"][i] = addV;

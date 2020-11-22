@@ -103,6 +103,8 @@ Tree* Tree::createTree(Session& session, int rootLabel) {
             return new RootTree(rootLabel);
         case Cycle :
             return new CycleTree(rootLabel, session.cycleCounter);
+        default : break;
+
     }
 
 //createTree(){

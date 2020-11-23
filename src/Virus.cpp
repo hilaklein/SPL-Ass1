@@ -24,7 +24,7 @@ void Virus::act(Session &session) {
     vector<int> neighbors = tempGraph->getNeighbors(nodeInd); //receiving current virus neighbors
     int sizeNeighbors = neighbors.size();
     for (int i = 0; i < sizeNeighbors; i++) { //running through curr virus neighbors to spread into one that was never infected
-        if ((!tempGraph->isInfected(neighbors.at(i))) && (tempGraph->yellow.at(neighbors.at(i) != 1))) {
+        if (!tempGraph->isInfected(neighbors.at(i))) {
             tempGraph->infectNode(neighbors.at(i)); //mark neighbor as infected
             addV = new Virus(neighbors.at(i));
             tempGraph->yellow.at(neighbors.at(i)) = 1;

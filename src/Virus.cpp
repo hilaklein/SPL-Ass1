@@ -20,7 +20,6 @@ void Virus::act(Session &session) { // Animal
         session.enqueueInfected(nodeInd); //if node was never infected (in the infectedQueue), then mark it as infected
         tempGraph->infectNode(nodeInd);
         tempGraph->yellow.at(nodeInd) = 0;
-
     }
     Virus *addV;
     vector<int> neighbors = tempGraph->getNeighbors(nodeInd); //receiving current virus neighbors

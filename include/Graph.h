@@ -8,16 +8,16 @@ using namespace std;
 class Graph{
 public:
     Graph(vector<vector<int>> matrix);
-
     Graph();
+
     vector<int> getNeighbors(int nodeIndex);
     void infectNode(int nodeInd);
     bool isInfected(int nodeInd);
-
-    vector<int> wasInfected;
     bool isAllInfected();
     bool canSpread();
     void disconnectNode(int nodeToDisconnect);
+
+    vector<int> wasInfected;
     vector<int> yellow;
 
 private:

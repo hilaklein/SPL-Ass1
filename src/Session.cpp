@@ -8,7 +8,7 @@ using json = nlohmann::json;
 using namespace std;
 
 
-Session::Session(const std::string &path) : numOfNodes(), cycleCounter(), g(),
+Session::Session(const std::string &path) : numOfNodes(), cycleCounter(0), g(),
 treeType(), agents(), infectedQueue() {
     ifstream configFile(path);
     json j;
@@ -155,6 +155,7 @@ void Session::simulate() {
         }
         allAreInfected = g.isAllInfected();
         virusCanSpread = g.canSpread();
+        cycleCounter++;
     }
     createOutput();
 }
@@ -166,8 +167,11 @@ void Session::initAgents(json& j) {
         int nodeIndex = j["agents"][i][1];
         char type = str.at(0);
         switch (type) {
-            case 'V': addAgent(Virus(nodeIndex));
+            case 'V': {
+                addAgent(Virus(nodeIndex));
+                g.yellow.at(nodeIndex) = 1;//?????????????????????????????????????????????
                 break;
+            }
             case 'C': addAgent(ContactTracer());
                 break;
             default:

@@ -19,6 +19,7 @@ void ContactTracer::act(Session &session) {
     int nodeToDisconnect = currTree->traceTree(); // calls the traceTree() and receives the nodeToDisconnect (depending on treeTYpe)
     //Graph* tempGraph = &session.getGraph();
     //!disconnectNode (which will be Graph.cpp method) logic insert here, instead of trying to disconnect remotely, cause it doesnt working:
+
     session.getGraph().disconnectNode(nodeToDisconnect);
 //    vector<int> neighbors = tempGraph->getNeighbors(nodeToDisconnect);
 //    for (int i = 0; i < neighbors.size(); i++) { //removes all the nodeTo Disconnect is edges

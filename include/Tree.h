@@ -61,6 +61,9 @@ public:
     MaxRankTree(int rootLabel);
     virtual int traceTree();
     virtual Tree* clone() const;
+
+private:
+    Tree& traceMaxTree(Tree* tree);
 };
 
 class RootTree: public Tree{

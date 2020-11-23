@@ -66,6 +66,24 @@ bool Graph::canSpread() {
     }
     return false;
 }
+//
+//bool Graph::canSpread() {
+//    int sizeWasInfected = wasInfected.size();
+//    for (int i = 0; i < sizeWasInfected; i++)
+//    {
+//        if (isInfected(i)){
+//            vector<int> tempNeighbors = getNeighbors(i);
+//            for (int k : tempNeighbors){
+//                if (wasInfected.at(k) == 0) {
+//                    tempNeighbors.clear();
+//                    return true;
+//                }
+//            }
+//            tempNeighbors.clear();
+//        }
+//    }
+//    return false;
+//}
 
 void Graph::disconnectNode(int nodeToDisconnect) {
     int edgesSize = edges.size();

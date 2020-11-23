@@ -7,14 +7,13 @@ int CycleTree::traceTree() {
     int output = node;
     if (children.empty())
         return output;
-    Tree* tempTree = children.front();
+    Tree* tempTree = this;
     for (int i = 0; i < currCycle; i++){
-        if (tempTree->getChildren().empty()) {
-            output = tempTree->getNodeIndex();
-            return output;
-        }
         tempTree = tempTree->getChildren().front();
         output = tempTree->getNodeIndex();
+        if (tempTree->getChildren().empty()) {
+            return output;
+        }
     }
     return output;
 

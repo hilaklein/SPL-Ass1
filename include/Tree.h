@@ -24,7 +24,7 @@ public:
 
     virtual int traceTree()=0;
 
-    //maybe there is another way to receive children vector????????????????????????????????????????
+
     vector<Tree*> getChildren() const;
 
     int getNodeIndex() const;
@@ -44,13 +44,6 @@ public:
     CycleTree(int rootLabel, int currCycle);
     virtual int traceTree();
     virtual Tree* clone() const;
-
-    //destructor - not needed - there is Tree destructor, and 'currCircle' is on the stack
-    //CycleTree(const CycleTree& other); //copy constructor
-//    CycleTree & operator=(const CycleTree &other); //copy assignment
-//    CycleTree(CycleTree &&other); //move constructor
-//    CycleTree operator=(CycleTree &&other); //move assignment
-
 
 private:
     int currCycle;

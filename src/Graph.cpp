@@ -30,6 +30,9 @@ vector<int> Graph::getNeighbors(int nodeIndex) {
 }
 
 void Graph::infectNode(int nodeInd) {
+    wasInfected.at(nodeInd) = 2;
+}
+void Graph::yellowNode(int nodeInd) {
     wasInfected.at(nodeInd) = 1;
 }
 
@@ -39,21 +42,24 @@ bool Graph::isInfected(int nodeInd) {
 
 bool Graph::isAllInfected() {
     for (int i : wasInfected) {
-        if (i != 1) return false;
+        if (i != 2) return false;
     }
     return true;
 }
 
 bool Graph::canSpread() {
-    for(int y : yellow){
-        if(y==1){
-            return true;
-        }
-    }
+//    for(int y : yellow){
+//        if(y==1){
+//            return true;
+//        }
+//    }
     int sizeWasInfected = wasInfected.size();
     for (int i = 0; i < sizeWasInfected; i++)
     {
-        if (wasInfected.at(i)==1){
+        if(wasInfected.at(i)==1){
+            return true;
+        }
+        if (wasInfected.at(i)==2){
             vector<int> tempNeighbors = getNeighbors(i);
             for (int k : tempNeighbors){
                 if (wasInfected.at(k) == 0) {

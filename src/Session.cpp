@@ -177,7 +177,7 @@ void Session::initAgents(json& j) {
         switch (type) {
             case 'V': {
                 addAgent(Virus(nodeIndex));
-                g.yellow.at(nodeIndex) = 1;
+                g.wasInfected.at(nodeIndex) = 1;
                 break;
             }
             case 'C': addAgent(ContactTracer());
@@ -210,7 +210,7 @@ void Session::createOutput() {
 
     vector<int> infectedNodes;
     for (int i = 0; i < numOfNodes; i++){
-        if (g.wasInfected.at(i) == 1)
+        if (g.wasInfected.at(i) == 2)
             infectedNodes.push_back(i);
     }
 

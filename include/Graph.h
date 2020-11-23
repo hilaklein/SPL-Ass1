@@ -17,7 +17,7 @@ public:
     bool canSpread();
     void disconnectNode(int nodeToDisconnect);
     vector<vector<int>> getEdges() const;
-
+    void yellowNode(int nodeInd);
     vector<int> wasInfected;
     vector<int> yellow;
 

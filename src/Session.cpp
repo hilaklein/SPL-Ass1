@@ -147,7 +147,7 @@ void Session::addAgent(const Agent &agent) {
 void Session::simulate() {
     bool allAreInfected = false;
     bool virusCanSpread = true;
-    while(!allAreInfected && virusCanSpread) {
+    while(virusCanSpread) {
         int size = agents.size();
         for (int i = 0 ; i < size; i++){
             agents.at(i)->act(*this);

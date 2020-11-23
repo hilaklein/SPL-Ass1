@@ -13,6 +13,9 @@ Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()),
 
 Graph::Graph() : wasInfected(),yellow(), edges() {}
 
+vector<vector<int>> Graph::getEdges() const {
+    return edges;
+}
 
 vector<int> Graph::getNeighbors(int nodeIndex) {
     vector<int> indexes = edges.at(nodeIndex);

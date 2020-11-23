@@ -137,13 +137,12 @@ TreeType Session::getTreeType() const{
     return treeType;
 }
 
-Graph& Session::getGraph()/* const */ {return g;}
+Graph& Session::getGraph() {return g;}
 
 void Session::addAgent(const Agent &agent) {
     agents.push_back(agent.clone());
 }
 
-//void Session::setGraph(const Graph &graph) {}
 
 void Session::simulate() {
     bool allAreInfected = false;
@@ -160,6 +159,17 @@ void Session::simulate() {
     createOutput();
 }
 
+void Session::setGraph(const Graph &graph) {
+    vector<vector<int>> otherEdges = graph.getEdges();
+    vector<vector<int>> thisEdges = g.getEdges();
+    int size = thisEdges.size();
+    for (int i = 0; i < size; i++){
+        for (int j = 0; j < size; j++){
+         thisEdges.at(i).at(j) = otherEdges.at(i).at(j);
+        }
+    }
+}
+
 void Session::initAgents(json& j) {
     int sizeAgents = j["agents"].size();
     for (int i = 0; i < sizeAgents; i++){
@@ -169,7 +179,7 @@ void Session::initAgents(json& j) {
         switch (type) {
             case 'V': {
                 addAgent(Virus(nodeIndex));
-                g.yellow.at(nodeIndex) = 1;//?????????????????????????????????????????????
+                g.yellow.at(nodeIndex) = 1;
                 break;
             }
             case 'C': addAgent(ContactTracer());

@@ -108,13 +108,6 @@ Tree* Tree::createTree(Session& session, int rootLabel) {
             return t;
         default : return t;
     }
-
-//createTree(){
-//Tree* output;
-// switch(of tree types which will define the instance of a desired Tree){
-// case m :
-// output = new maxranktree();
-//return output;
 }
 
 int Tree:: getNodeIndex() const {return node;}

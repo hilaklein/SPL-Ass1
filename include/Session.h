@@ -38,7 +38,6 @@ public:
     int cycleCounter;
 
 private:
-    //const vector<vector<int>> buildMatrix(string graph); -- seems like we dont need this one cause Graph constructor can receive j["graph"] as vector matrix
     void createOutput();
     void initAgents(json& j);
     Graph g;

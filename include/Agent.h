@@ -19,7 +19,7 @@ class ContactTracer: public Agent{
 public:
     ContactTracer();
     virtual ~ContactTracer();
-    ContactTracer(const Agent& aCT); //copy constructor
+    ContactTracer(const ContactTracer& aCT); //copy constructor
 
     virtual void act(Session& session);
 

@@ -4,29 +4,24 @@ using namespace std;
 
 
 //Graph constructor
-Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()), edges(vector<vector<int>>()) {
+Graph::Graph(std::vector<std::vector<int>> matrix) : wasInfected(vector<int>()),yellow(vector<int>()), edges(vector<vector<int>>()) {
     wasInfected = vector<int>(matrix.size(), 0);
+    yellow = vector<int>(matrix.size(), 0);
     edges = matrix;
     matrix.clear();
 }
 
-Graph::Graph() {}
+Graph::Graph() : wasInfected(),yellow(), edges() {}
 
-// copy-constructor
-// destructor: release edges, release wasInfected
-// copy assignment
-// move constructor
-// move assignment
-
-//Graph::Graph(const Graph& aGraph) {
-//
-//}
-
+vector<vector<int>> Graph::getEdges() const {
+    return edges;
+}
 
 vector<int> Graph::getNeighbors(int nodeIndex) {
     vector<int> indexes = edges.at(nodeIndex);
     vector<int> output;
-    for (int i = 0; i < indexes.size(); i++){
+    int sizeIndexes = indexes.size();
+    for (int i = 0; i < sizeIndexes; i++){
         if (indexes.at(i) == 1)
             output.push_back(i);
     }
@@ -50,7 +45,8 @@ bool Graph::isAllInfected() {
 }
 
 bool Graph::canSpread() {
-    for (int i = 0; i < wasInfected.size(); i++)
+    int sizeWasInfected = wasInfected.size();
+    for (int i = 0; i < sizeWasInfected; i++)
     {
         if (isInfected(i)){
             vector<int> tempNeighbors = getNeighbors(i);
@@ -67,8 +63,8 @@ bool Graph::canSpread() {
 }
 
 void Graph::disconnectNode(int nodeToDisconnect) {
-    vector<int> neighbors = getNeighbors(nodeToDisconnect);
-    for (int i = 0; i < edges.size(); i++) {
+    int edgesSize = edges.size();
+    for (int i = 0; i < edgesSize; i++) {
         edges.at(nodeToDisconnect).at(i) = 0;
         edges.at(i).at(nodeToDisconnect) = 0;
     }

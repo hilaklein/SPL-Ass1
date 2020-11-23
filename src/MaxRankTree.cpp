@@ -4,16 +4,22 @@
 MaxRankTree::MaxRankTree(int rootLabel) : Tree(rootLabel) {}
 
 int MaxRankTree::traceTree() {
-    int output = node;
-    if (children.size() == 0)
-        return output;
-    int tempValue;
-    for (Tree* tempTree:children){
-        tempValue = tempTree->traceTree();
-        if (output < tempValue)
-            output = tempValue;
-    }
+    Tree* out = &traceMaxTree(this);
+    int output = out->getNodeIndex();
     return output;
+}
+
+Tree& MaxRankTree::traceMaxTree(Tree* treeToRun) {
+    if (treeToRun->getChildren().empty())
+        return *treeToRun;
+    Tree* output = treeToRun;
+    for (Tree* tempTree : treeToRun->getChildren()){
+        tempTree = &traceMaxTree(tempTree);
+        if (tempTree->getChildren().size() > output->getChildren().size())
+            output = tempTree;
+
+    }
+    return *output;
 }
 
 Tree * MaxRankTree::clone() const {

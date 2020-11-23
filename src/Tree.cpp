@@ -3,60 +3,79 @@
 #include "../include/Session.h"
 using namespace std;
 
+Tree::Tree() : node(0), children() {}
+
 Tree::Tree(int rootLabel) : node(rootLabel), children(vector<Tree*>()) {
 
 }
-Tree::~Tree()  {
-    int size = children.size();
-    for(int i = size-1; i >=0 ; i--){
-        if(children[i]){ //- return it later if needed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            delete children[i];
-        }
-        children.clear();
-    }
-}
-Tree::Tree(const Tree &other): children(other.children),node(other.node) {} // copy ctr
 
-Tree & Tree::operator=(const Tree &other) { // copy Assignment
-    if(!children.empty()) {
+// destructor
+Tree::~Tree() {
+    int size = children.size();
+    for (int i = size - 1; i >= 0; i--) {
+        if (children[i]) {
+            delete children[i];
+        }
+        children.clear();
+    }
+}
+
+// copy constructor
+Tree::Tree(const Tree &other) : node(other.node), children() {
+    int size = other.children.size();
+    for(int i = 0; i < size; i++){
+        children.push_back(other.children[i]);
+    }
+}
+
+
+// copy assignment
+Tree & Tree::operator=(const Tree &other) {
+    if (this == &other) return *this;
+    node = other.node;
+    if (!children.empty()) {
         int size = children.size();
-        for (int i = size - 1; i >= 0; i--) {
+        for (int i = 0; i < size; i++) {
             delete children[i];
         }
     }
-        children.clear();
-        int otherChildSize = other.children.size();
-        for(int i = 0 ; i < otherChildSize ; i++) {
-            Tree *t = (this)->children[i];
-            children.push_back(t);
-        }
-        return *this;
+    children.clear();
+    int otherSize = other.children.size();
+    for (int i = 0; i < otherSize; i++) {
+        children.push_back(other.children[i]);
+    }
+    return *this;
 }
-Tree::Tree(Tree &&other) : children(other.children),node(other.node) {//move ctr
-    other.node = 0;
+
+// move constructor
+Tree::Tree(Tree &&other) noexcept : node(other.node), children() {
     int size = other.children.size();
     for(int i = 0 ; i < size ; i++) {
-        other.children[i] = nullptr;
+        children.push_back(other.children[i]->clone());
+        delete other.children[i];
     }
     other.children.clear();
 }
-Tree & Tree::operator=(Tree &&other) { // move Assignment
-    if (this != &other) { // A1=A1
-        if (&children) {
-            int size = children.size();
-            for (int i = size - 1; i >= 0; i--) {
-                if (children[i]) {
-                    delete children[i];
-                }
-            }
 
-            int otherChildSize = other.children.size();
-            for (int i = 0; i < otherChildSize; i++) {
-                children[i] = other.children[i];
-            }
+// move assignment
+Tree & Tree::operator=(Tree &&other) noexcept {
+    if (this == &other)
+        return *this;
+    if (!children.empty()) {
+        int size = children.size();
+        for (int i = 0; i < size; i++) {
+            delete children[i];
+
         }
-        node = other.node;
     }
+    children.clear();
+
+    int otherSize = other.children.size();
+    for (int i = 0; i < otherSize; i++) {
+        children.push_back(other.children[i]);
+        other.children.at(i) = nullptr;
+    }
+    node = other.node;
     return *this;
 }
 
@@ -65,37 +84,34 @@ void Tree::addChild(const Tree& child){
 }
 
 Tree& Tree::getChild(int nodeIndex) const {
+    Tree* t = nullptr;
     for (Tree *itr:children) {
-        if (itr->node == nodeIndex)
-            return *itr;
-        //verify that there is no NullPointerException in case node with nodeIndex does not exist in current tree
+        if (itr->node == nodeIndex) {
+            t = itr;
+            return *t;
+        }
     }
+    return *t;
 }
 
 Tree* Tree::createTree(Session& session, int rootLabel) {
-
+    Tree* t = nullptr;
     switch (session.getTreeType()) {
         case MaxRank :
-            return new MaxRankTree(rootLabel);
-            break;
+            t = new MaxRankTree(rootLabel);
+            return t;
         case Root :
-            return new RootTree(rootLabel);
-            break;
+            t = new RootTree(rootLabel);
+            return t;
         case Cycle :
-            return new CycleTree(rootLabel, session.cycleCounter);
-            break;
+            t = new CycleTree(rootLabel, session.cycleCounter);
+            return t;
+        default : return t;
     }
-
-//createTree(){
-//Tree* output;
-// switch(of tree types which will define the instance of a desired Tree){
-// case m :
-// output = new maxranktree();
-//return output;
 }
 
 int Tree:: getNodeIndex() const {return node;}
 
-const vector<Tree *> Tree::getChildren() const {
+vector<Tree *> Tree::getChildren() const {
     return children;
 }

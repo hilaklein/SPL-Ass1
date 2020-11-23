@@ -3,24 +3,21 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include "../cmake-build-debug/json.hpp"
 using json = nlohmann::json;
 
 using namespace std;
 
 
-Session::Session(const std::string &path) :allInfected(false), containVirus(true), numOfNodes(0), cycleCounter(0), g(), treeType(), agents(vector<Agent*>()), infectedQueue(vector<int>()) {
+Session::Session(const std::string &path) : numOfNodes(), cycleCounter(0), g(),
+treeType(), agents(), infectedQueue() {
     ifstream configFile(path);
     json j;
-    j << configFile;
-    cout<<"running in Session" << endl;
+    configFile >> j;
 
     numOfNodes = j["graph"].size();
     g = Graph(j["graph"]);
     string tempTreeType = j["tree"];
     char charTreeType = tempTreeType[0];
-    cout<<"running in Session: before switch" << endl;
-
     switch (charTreeType){
         case 'M' : treeType = MaxRank;
             break;
@@ -31,14 +28,11 @@ Session::Session(const std::string &path) :allInfected(false), containVirus(true
         default:
             break;
     }
-    cout<<"running in Session: before agents initialization" << endl;
 
     initAgents(j);
     j.clear();
     tempTreeType.clear();
     configFile.close();
-    cout<<"running in Session: after j.clear" << endl;
-
 }
 
 Session::~Session() {// destructor
@@ -52,53 +46,80 @@ Session::~Session() {// destructor
 }
 
 // copy constructor
-Session::Session(Session &other) :allInfected(other.allInfected),containVirus(other.containVirus), numOfNodes(other.numOfNodes),cycleCounter(other.cycleCounter), agents(other.agents),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {}
+Session::Session(Session &other) : numOfNodes(other.numOfNodes),cycleCounter(other.cycleCounter),
+                                   g(other.g),treeType(other.treeType), agents(), infectedQueue(other.infectedQueue) {
+    int size = other.agents.size();
+    for(int i = 0; i < size; i++){
+        agents.push_back(other.agents[i]);
+    }
+}
 
 
 // copy assignment
-Session & Session::operator=(const Session &other) { //if statement in case A1=A1??????????????????????????
-    if(!agents.empty()) {
+Session & Session::operator=(const Session &other) {
+    if (this == &other) return *this;
+    numOfNodes = other.numOfNodes;
+    cycleCounter = other.cycleCounter;
+    g = other.g;
+    treeType = other.treeType;
+    infectedQueue = other.infectedQueue;
+    if (!agents.empty()) {
         int size = agents.size();
-        for (int i = size - 1; i >= 0; i--) {
+        for (int i = 0; i < size; i++) {
             delete agents[i];
         }
     }
     agents.clear();
-    int otherChildSize = other.agents.size();
-    for(int i = 0 ; i < otherChildSize; i++) {
-        Agent *a = (this)->agents[i];  //need to be other.agents?????????????????????????????????????????
-        agents.push_back(a);
+    int otherSize = other.agents.size();
+    for (int i = 0; i < otherSize; i++) {
+        agents.push_back(other.agents[i]);
     }
     return *this;
 }
 
 // move constructor
-Session::Session(Session &&other) : agents(other.agents),g(other.g),treeType(other.treeType), infectedQueue(other.infectedQueue) {
+Session::Session(Session &&other) noexcept : numOfNodes(), cycleCounter(),
+                                    g(), treeType(), agents(), infectedQueue() {
+    numOfNodes = other.numOfNodes;
+    cycleCounter = other.cycleCounter;
+    g = other.g;
+    treeType = other.treeType;
     int size = other.agents.size();
     for(int i = 0 ; i < size ; i++) {
-        other.agents[i] = nullptr;
+        agents.push_back(other.agents[i]->clone());
+        delete other.agents[i];
     }
     other.agents.clear();
+    int infectedSize = other.infectedQueue.size();
+    for(int i = 0; i < infectedSize; i++){
+        infectedQueue.push_back(other.infectedQueue[i]);
+    }
 }
 
 // move assignment
-Session Session::operator=(Session &&other) {
-    if (this != &other) { // A1=A1
-        if (&agents) {
-            int size = agents.size();
-            for (int i = size - 1; i >= 0; i--) {
-                if (agents[i]) {
-                    delete agents[i];
-                }
-            }
+Session& Session::operator=(Session &&other) noexcept {
+    if (this == &other)
+        return *this;
+    if (!agents.empty()) {
+        int size = agents.size();
+        for (int i = 0; i < size; i++) {
+            delete agents[i];
 
-            int otherChildSize = other.agents.size();
-            for (int i = 0; i < otherChildSize; i++) {
-                agents[i] = other.agents[i];
-            }
         }
-        //node = other.node;
     }
+    agents.clear();
+    infectedQueue.clear();
+
+    int otherSize = other.agents.size();
+    for (int i = 0; i < otherSize; i++) {
+        agents.push_back(other.agents[i]);
+        other.agents.at(i) = nullptr;
+    }
+    numOfNodes = other.numOfNodes;
+    cycleCounter = other.cycleCounter;
+    g = other.g;
+    treeType = other.treeType;
+    infectedQueue = other.infectedQueue;
     return *this;
 }
 
@@ -116,13 +137,12 @@ TreeType Session::getTreeType() const{
     return treeType;
 }
 
-Graph& Session::getGraph()/* const */ {return g;}
+Graph& Session::getGraph() {return g;}
 
 void Session::addAgent(const Agent &agent) {
     agents.push_back(agent.clone());
 }
 
-//void Session::setGraph(const Graph &graph) {}
 
 void Session::simulate() {
     bool allAreInfected = false;
@@ -134,18 +154,34 @@ void Session::simulate() {
         }
         allAreInfected = g.isAllInfected();
         virusCanSpread = g.canSpread();
+        cycleCounter++;
     }
     createOutput();
 }
 
+void Session::setGraph(const Graph &graph) {
+    vector<vector<int>> otherEdges = graph.getEdges();
+    vector<vector<int>> thisEdges = g.getEdges();
+    int size = thisEdges.size();
+    for (int i = 0; i < size; i++){
+        for (int j = 0; j < size; j++){
+         thisEdges.at(i).at(j) = otherEdges.at(i).at(j);
+        }
+    }
+}
+
 void Session::initAgents(json& j) {
-    for (int i = 0; i < j["agents"].size(); i++){
+    int sizeAgents = j["agents"].size();
+    for (int i = 0; i < sizeAgents; i++){
         string str = j["agents"][i][0];
         int nodeIndex = j["agents"][i][1];
         char type = str.at(0);
         switch (type) {
-            case 'V': addAgent(Virus(nodeIndex));
+            case 'V': {
+                addAgent(Virus(nodeIndex));
+                g.yellow.at(nodeIndex) = 1;
                 break;
+            }
             case 'C': addAgent(ContactTracer());
                 break;
             default:
@@ -163,19 +199,23 @@ void Session::createOutput() {
     vector<int> tempNeighbors;
     vector<int> zeros (numOfNodes, 0);
     vector<int> addV = zeros;
+    int sizeTempNeighbors;
     for (int i = 0; i < numOfNodes; i++) {
         tempNeighbors = g.getNeighbors(i);
-        for (int k = 0; k < tempNeighbors.size(); k++) {
+        sizeTempNeighbors = tempNeighbors.size();
+        for (int k = 0; k < sizeTempNeighbors; k++) {
             addV.at(tempNeighbors.at(k)) = 1;
         }
         j["graph"][i] = addV;
         addV = zeros;
     }
+
     vector<int> infectedNodes;
     for (int i = 0; i < numOfNodes; i++){
         if (g.wasInfected.at(i) == 1)
             infectedNodes.push_back(i);
     }
+
     j["infected"] = infectedNodes;
     output << j;
     tempNeighbors.clear();
